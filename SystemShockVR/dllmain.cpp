@@ -149,7 +149,7 @@ public:
         // API::get()->log_info("speed.y = %f", difference[1]);
         // API::get()->log_info("speed.z = %f", difference[2]);
 
-        if ( (difference[1] <= -.02) && (difference[2] <= -.012) && (melee_debounce == true) )
+        if ((difference[1] <= -.02) && (difference[2] <= -.006) && (melee_debounce == true))
         {
             melee_attack = true;
         }
