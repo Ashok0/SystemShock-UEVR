@@ -41,9 +41,9 @@ This mode temporarily holsters your weapon and displays a properly aligned curso
 * SystemShock-VRFixes_p.pak: Oculus Touch button prompts.
 
 ## Installation
-1) Install the nightly build of UEVR (at least UEVR Nightly 938 required) from **HERE** (https://github.com/praydog/UEVR-nightly/releases).
-2) Download the latest release of the System Shock UEVR plugin from **HERE**. Click "Import Config" in the UEVR UI and navigate to "SystemReShock-Win64-Shipping.zip" and click on it and accept the DLL warning.
-3) (Optional) Download the latest PAK mod from **HERE**.  Copy the .pak file to \Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks
+1) Install the nightly build of UEVR (at least UEVR Nightly 938 required) from [**HERE**](https://github.com/praydog/UEVR-nightly/releases).
+2) Download the latest release of the System Shock UEVR plugin from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases). Click "Import Config" in the UEVR UI and navigate to "SystemReShock-Win64-Shipping.zip" and click on it and accept the DLL warning.
+3) (Optional) Download the latest PAK mod from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases).  Copy the .pak file to \Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks
 4) (Optional) For Valve Index users only, the System button must be mapped to the left touchpad and the right touchpad must be configured as a right thumbrest in the SteamVR bindings.  You can resolve these issues by installing Markmon’s UEVR Index Controls plugin.. (https://github.com/mark-mon/uevr-index-controls)
 5) (Optional) For seated play, delete "17105528413843615245_props.json" from your UEVR global directory to disable physical crouching.  This will allow you to manually crouch by pressing **X**.
 6) Launch System Shock and inject the game with UEVR!
@@ -121,10 +121,10 @@ If **LT** is not working for you, press **X** to deactivate crouching.  Interact
 The mod is currently in maintenance mode but I will be continuing to support the mod if any new bugs are found.  If you experience any issues with the mod, please send me a bug report so I can continue to improve the System Shock VR plugin!
 
 ## Recommended Mods
-* Adjusted Respawn Limits - Reduce enemy respawning (https://www.nexusmods.com/systemshock2023/mods/93)
+* [**Adjusted Respawn Limits**](https://www.nexusmods.com/systemshock2023/mods/93) - Reduce enemy respawning 
   * Extract the contents and copy "v1.2_Reinforcements_0.5x_P.pak" to *\Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks*
-* Cyberspace Adjustments - Reduce the difficulty of cyberspace sections of the game (https://www.nexusmods.com/systemshock2023/mods/83)
-* Classic Evil Shodan Portrait - Replace SHODAN's evil portrait with the classic ones from System Shock 1 or 2. (https://www.nexusmods.com/systemshock2023/mods/101)
+* [**Cyberspace Adjustments**](https://www.nexusmods.com/systemshock2023/mods/83) - Reduce the difficulty of cyberspace sections of the game 
+* [**Classic Evil Shodan Portrait**](https://www.nexusmods.com/systemshock2023/mods/101) - Replace SHODAN's evil portrait with the classic ones from System Shock 1 or 2.
 
 [*Feel free to buy me a coffee*](http://www.patreon.com/ashok0).  
 
