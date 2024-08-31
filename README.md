@@ -126,7 +126,7 @@ The mod is currently in maintenance mode but I will be continuing to support the
 * [**Cyberspace Adjustments**](https://www.nexusmods.com/systemshock2023/mods/83) - Reduce the difficulty of cyberspace sections of the game 
 * [**Classic Evil Shodan Portrait**](https://www.nexusmods.com/systemshock2023/mods/101) - Replace SHODAN's evil portrait with the classic ones from System Shock 1 or 2.
 
-[*Feel free to buy me a coffee*](http://www.patreon.com/ashok0).  
+[**Feel free to buy me a coffee**](http://www.patreon.com/ashok0).  
 
 ## Credits
 Special thanks to Praydog, TimBurton, Markmon, and CJ117 for their support while developing this VR mod!
