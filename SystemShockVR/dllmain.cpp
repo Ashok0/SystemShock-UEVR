@@ -191,6 +191,9 @@ public:
         {
             melee_dn = false;
             melee_fwd = false;
+
+            melee_dn_count = 0;
+            melee_fwd_count = 0;
         }
 
         melee_debounce = true;
