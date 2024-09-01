@@ -109,13 +109,12 @@ You can change select settings safely.  Do not change any of the following, howe
 
 *IN-GAME SETTINGS*
 * Toggle Crouch
-* Field of View (FOV)
 
 **I pressed *X* and crouching is not working!**
 With default settings, you should always crouch by crouching in real life.  If you press the crouch button (**X**), the player will technically crouch but this plugin prevents the crouch button from modifying the camera height as this would interfere with physical crouching.  If you wish to use the **X** button to crouch, you must delete "17105528413843615245_props.json" from your UEVR global directory.
 
 **Pressing *LT* no longer activates Interact mode!**
-If **LT** is not working for you, press **X** to deactivate crouching.  Interact mode is disabled when you are crouched as the cursor only works properly in VR at a standing height.  
+If **LT** is not working for you, you may be in a crouched state.  Press **X** to toggle crouching off.  Interact mode is disabled when you are crouched as the cursor only works properly in VR at a standing height.  
 
 **Is this mod still in development?**
 The mod is currently in maintenance mode but I will be continuing to support the mod if any new bugs are found.  If you experience any issues with the mod, please send me a bug report so I can continue to improve the System Shock VR plugin!
