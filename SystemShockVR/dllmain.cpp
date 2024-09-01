@@ -113,6 +113,11 @@ bool rapier_attack = false;
 bool melee_equipped = false;
 bool rapier_equipped = false;
 bool melee_debounce = false;
+bool melee_dn = false;
+bool melee_fwd = false;
+
+int melee_dn_count = 0;
+int melee_fwd_count = 0;
 
 class SystemShockPlugin : public uevr::Plugin {
 public:
@@ -149,9 +154,25 @@ public:
         // API::get()->log_info("speed.y = %f", difference[1]);
         // API::get()->log_info("speed.z = %f", difference[2]);
 
-        if ((difference[1] <= -.02) && (difference[2] <= -.006) && (melee_debounce == true))
+        if (difference[1] <= -.02)
+        {
+            melee_dn = true;
+        }
+
+        if (difference[2] <= -.012)
+        {
+            melee_fwd = true;           
+        }
+
+        if ((melee_dn == true) && (melee_fwd == true) && (melee_debounce == true))
         {
             melee_attack = true;
+
+            melee_dn = false;
+            melee_fwd = false;
+
+            melee_dn_count = 0;
+            melee_fwd_count = 0;
         }
 
         if (difference[2] <= -.02)
@@ -162,6 +183,15 @@ public:
         old_position[0] = right_position.x;
         old_position[1] = right_position.y;
         old_position[2] = right_position.z;
+
+        if (melee_fwd == true)melee_fwd_count++;
+        if (melee_dn == true)melee_dn_count++;
+
+        if ((melee_dn_count > 1) || (melee_fwd_count > 1))
+        {
+            melee_dn = false;
+            melee_fwd = false;
+        }
 
         melee_debounce = true;
     }
