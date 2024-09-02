@@ -6,8 +6,6 @@ This System Shock mod brings VR support complete with 6DOF motion controls to on
 
 The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds a wide variety of advanced VR features and fixes to the game.  The PAK mod updates the button prompts to match Oculus Touch controllers.
 
-[**If you enjoy this mod, feel free to buy me a coffee**](http://www.patreon.com/ashok0) :coffee:
-
 ## VR Mod Features
 ### UEVR Profile
 * 6DOF motion controls.
@@ -133,3 +131,5 @@ The mod is currently in maintenance mode but I will be continuing to support the
 
 ## Credits
 Special thanks to Praydog, TimBurton, Markmon, and CJ117 for their support while developing this VR mod!
+
+[**Feel free to buy me a coffee**](http://www.patreon.com/ashok0) :coffee:
