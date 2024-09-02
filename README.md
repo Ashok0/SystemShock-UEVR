@@ -132,4 +132,4 @@ The mod is currently in maintenance mode but I will be continuing to support the
 ## Credits
 Special thanks to Praydog, TimBurton, Markmon, and CJ117 for their support while developing this VR mod!
 
-[**Feel free to buy me a coffee :coffee:**](http://www.patreon.com/ashok0).
+[**Feel free to buy me a coffee :coffee:**](http://www.patreon.com/ashok0)
