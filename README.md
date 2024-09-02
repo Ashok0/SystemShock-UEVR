@@ -6,6 +6,8 @@ This System Shock mod brings VR support complete with 6DOF motion controls to on
 
 The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds a wide variety of advanced VR features and fixes to the game.  The PAK mod updates the button prompts to match Oculus Touch controllers.
 
+[**If you enjoy this mod, feel free to buy me a coffee**](http://www.patreon.com/ashok0) :coffee:
+
 ## VR Mod Features
 ### UEVR Profile
 * 6DOF motion controls.
@@ -20,7 +22,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 
 ### VR Plugin
 * In-game settings automatically configured for VR.
-* Improved object interaction.  Hold **LT** to enable "interact" mode.  You do not need to enter "interact" mode to interact with objects, but this mode will display a cursor so you can more easily interact with things like weapons, ammo, switches, levers, etc.  Weapons are disabled in this mode as enabling motion controls prevent the cursor from working properly in VR. This mode also temporarily disables Roomscale which allows you to lean closely towards objects and walls without any pushback.  Releasing **LT**, crouching, or picking up auto equip items will exit "interact" mode and re-center you in your playspace.  "Interact" mode is also automatically activated and exited when you use or stop using a keypad, circuit puzzle, or vending machine.
+* Improved object interaction.  Hold **LT** to enable "interact" mode.  You do not need to enter "interact" mode to interact with objects, but this mode will display a cursor so you can more easily interact with things like weapons, ammo, switches, levers, etc.  Weapons are disabled in this mode as enabling motion controls prevents the cursor from working properly in VR. This mode also temporarily disables Roomscale which allows you to lean closely towards objects and walls without any pushback.  Releasing **LT**, crouching, or picking up auto equip items will exit "interact" mode and re-center you in your playspace.  "Interact" mode is also automatically activated and exited when you use or stop using a keypad, circuit puzzle, or vending machine.
 * Motion controller gesture support.  You can melee attack with the lead pipe, wrench, or laser rapier by swinging your right hand forward in real life.  Holding **RT** while performing a gesture will perform a heavy melee attack.  You can alternatively melee with only **RT**.
 * Improved VR controls when using the Inventory menu.  Press **LT** to select inventory items and inventory sub-menu options (shown with **Y**).  Press **RT** to display additional information on selected inventory items.  
 * Roomscale support with Automatic Height Adjustment.
@@ -131,5 +133,3 @@ The mod is currently in maintenance mode but I will be continuing to support the
 
 ## Credits
 Special thanks to Praydog, TimBurton, Markmon, and CJ117 for their support while developing this VR mod!
-
-[**Feel free to buy me a coffee :coffee:**](http://www.patreon.com/ashok0)
