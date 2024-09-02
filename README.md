@@ -20,8 +20,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 
 ### VR Plugin
 * In-game settings automatically configured for VR.
-* Improved object interaction.  Hold **LT** to enable "interact" mode.  This mode fixes a UI issue in VR where motion controls can cause the cursor to become misaligned. 
-This mode temporarily holsters your weapon and displays a properly aligned cursor so you can easily interact with objects like weapons, ammo, switches, levers, etc.  It also temporarily disables Roomscale which allows you to lean closely towards objects and walls without any pushback.  Releasing **LT**, crouching, or picking up auto equip items will exit "interact" mode and re-center you in your playspace.  "Interact" mode is also automatically activated and exited when you use or stop using a keypad, circuit puzzle, or vending machine.
+* Improved object interaction.  Hold **LT** to enable "interact" mode.  You do not need to enter "interact" mode to interact with objects, but this mode will display a cursor so you can more easily interact with things like weapons, ammo, switches, levers, etc.  Weapons are disabled in this mode as enabling motion controls prevent the cursor from working properly in VR. This mode also temporarily disables Roomscale which allows you to lean closely towards objects and walls without any pushback.  Releasing **LT**, crouching, or picking up auto equip items will exit "interact" mode and re-center you in your playspace.  "Interact" mode is also automatically activated and exited when you use or stop using a keypad, circuit puzzle, or vending machine.
 * Motion controller gesture support.  You can melee attack with the lead pipe, wrench, or laser rapier by swinging your right hand forward in real life.  Holding **RT** while performing a gesture will perform a heavy melee attack.  You can alternatively melee with only **RT**.
 * Improved VR controls when using the Inventory menu.  Press **LT** to select inventory items and inventory sub-menu options (shown with **Y**).  Press **RT** to display additional information on selected inventory items.  
 * Roomscale support with Automatic Height Adjustment.
@@ -114,6 +113,12 @@ With default settings, you should always crouch by crouching in real life.  If y
 
 **Pressing *LT* no longer activates Interact mode!**
 If **LT** is not working for you, you may be in a crouched state.  Press **X** to toggle crouching off.  Interact mode is disabled when you are crouched as the cursor only works properly in VR at a standing height.  
+
+**When I load a saved game, my body is floating in space far away from my arms!** Press L3+R3 to bring up the UEVR overlay, select the "Camera" tab, and set the "Camera Offset" values to: 0.0 | 0.0 | 0.0 
+
+**My game crashes to the desktop with a "LowLevelFatalError" message!** Performing a clean install of System Shock will resolve the issue.
+
+**My weapons are invisible!** This issue can occur when using an older flat saved game in VR.  Restarting the game with a clean saved game will resolve the issue.
 
 **Is this mod still in development?**
 The mod is currently in maintenance mode but I will be continuing to support the mod if any new bugs are found.  If you experience any issues with the mod, please send me a bug report so I can continue to improve the System Shock VR plugin!
