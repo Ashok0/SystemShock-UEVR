@@ -114,7 +114,7 @@ With default settings, you should always crouch by crouching in real life.  If y
 **Pressing *LT* no longer activates Interact mode!**
 If **LT** is not working for you, you may be in a crouched state.  Press **X** to toggle crouching off.  Interact mode is disabled when you are crouched as the cursor only works properly in VR at a standing height.  
 
-**When I load a saved game, my body is floating in space far away from my arms!** Press L3+R3 to bring up the UEVR overlay, select the "Camera" tab, and set the "Camera Offset" values to: 0.0 | 0.0 | 0.0 
+**When I load a saved game, my body is floating in space far away from my arms!** Press **L3+R3** to bring up the UEVR overlay, select the "Camera" tab, and set the "Camera Offset" values to: 0.0 | 0.0 | 0.0 
 
 **My game crashes to the desktop with a "LowLevelFatalError" message!** Performing a clean install of System Shock will resolve the issue.
 
@@ -129,7 +129,7 @@ The mod is currently in maintenance mode but I will be continuing to support the
 * [**Cyberspace Adjustments**](https://www.nexusmods.com/systemshock2023/mods/83) - Reduce the difficulty of cyberspace sections of the game 
 * [**Classic Evil Shodan Portrait**](https://www.nexusmods.com/systemshock2023/mods/101) - Replace SHODAN's evil portrait with the classic ones from System Shock 1 or 2.
 
-[**Feel free to buy me a coffee**](http://www.patreon.com/ashok0).  
-
 ## Credits
 Special thanks to Praydog, TimBurton, Markmon, and CJ117 for their support while developing this VR mod!
+
+[**Feel free to buy me a coffee :coffee:**](http://www.patreon.com/ashok0).
