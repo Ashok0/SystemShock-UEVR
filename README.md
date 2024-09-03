@@ -94,7 +94,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 
 ## FAQ
 **Can I adjust settings for the game when using this mod?**
-You can change select settings safely.  Do not change any of the following, however, as these settings are managed directly by the VR plugin.
+You can change select settings safely.  Do not change any of the following, however, as these settings are managed directly by the VR plugin.  Modifying the default settings related to crouching will break physical crouching.
 
 *UEVR SETTINGS*
 * VR_RoomscaleMovement
@@ -107,6 +107,7 @@ You can change select settings safely.  Do not change any of the following, howe
 
 *IN-GAME SETTINGS*
 * Toggle Crouch
+* Crouch = X
 
 **I pressed *X* and crouching is not working!**
 With default settings, you should always crouch by crouching in real life.  If you press the crouch button (**X**), the player will technically crouch but this plugin prevents the crouch button from modifying the camera height as this would interfere with physical crouching.  If you wish to use the **X** button to crouch, you must delete "17105528413843615245_props.json" from your UEVR global directory.
@@ -114,9 +115,14 @@ With default settings, you should always crouch by crouching in real life.  If y
 **Pressing *LT* no longer activates Interact mode!**
 If **LT** is not working for you, you may be in a crouched state.  Press **X** to toggle crouching off.  Interact mode is disabled when you are crouched as the cursor only works properly in VR at a standing height.  
 
-**When I load a saved game, my body is floating in space far away from my arms!** Press **L3+R3** to bring up the UEVR overlay, select the "Camera" tab, and set the "Camera Offset" values to: 0.0 | 0.0 | 0.0 
+**I tried walking forward and I appear to be stuck or frozen in place!** 
+I have been unable to find the root cause of this behavior, but sprinting (press Left Stick forward) will allow you to move again.
 
-**My game crashes to the desktop with a "LowLevelFatalError" message!** Performing a clean install of System Shock will resolve the issue.
+**When I load a saved game, my body is floating in space far away from my arms!**
+Press **L3+R3** to bring up the UEVR overlay, select the "Camera" tab, and set the "Camera Offset" values to: 0.0 | 0.0 | 0.0 
+
+**My game crashes to the desktop with a "LowLevelFatalError" message!**
+Performing a clean install of System Shock will resolve the issue.
 
 **My weapons are invisible!** This issue can occur when using an older flat saved game in VR.  Restarting the game with a clean saved game will resolve the issue.
 
