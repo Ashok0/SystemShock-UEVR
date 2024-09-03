@@ -115,9 +115,6 @@ With default settings, you should always crouch by crouching in real life.  If y
 **Pressing *LT* no longer activates Interact mode!**
 If **LT** is not working for you, you may be in a crouched state.  Press **X** to toggle crouching off.  Interact mode is disabled when you are crouched as the cursor only works properly in VR at a standing height.  
 
-**I tried walking forward and I appear to be stuck or frozen in place!** 
-I have been unable to find the root cause of this behavior, but sprinting (press Left Stick forward) will allow you to move again.
-
 **When I load a saved game, my body is floating in space far away from my arms!**
 Press **L3+R3** to bring up the UEVR overlay, select the "Camera" tab, and set the "Camera Offset" values to: 0.0 | 0.0 | 0.0 
 
