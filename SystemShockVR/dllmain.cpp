@@ -53,8 +53,9 @@ using namespace uevr;
         API::get()->log_info(__VA_ARGS__); \
     }}
 
-#define INPUT_DEADZONE_90  ( 0.90f * FLOAT(0x7FFF) )  // Default to 90% of the +/- 32767 range.
-#define INPUT_DEADZONE_10  ( 0.10f * FLOAT(0x7FFF) )  // Default to 10% of the +/- 32767 range.
+#define INPUT_DEADZONE_HI  ( 0.90f * FLOAT(0x7FFF) )  // Default to 90% of the +/- 32767 range.
+#define INPUT_DEADZONE_MED ( 0.45f * FLOAT(0x7FFF) )  // Default to 45% of the +/- 32767 range.
+#define INPUT_DEADZONE_LO  ( 0.01f * FLOAT(0x7FFF) )  // Default to 01% of the +/- 32767 range.
 
 bool IsLaptop = false;
 
@@ -680,7 +681,17 @@ public:
                         InitSmoothTurn = true;
                     }
 
-                    if (state->Gamepad.sThumbRX >= INPUT_DEADZONE_90) /* Fast speed smooth rotation */
+                    if (state->Gamepad.sThumbRX >= INPUT_DEADZONE_HI) /* Fast speed smooth rotation */
+                    {
+                        ref.yaw += 3;
+                        const auto CONT = Controller::get_instance();
+                        if (CONT) {
+                            CONT->SetControlRotation(&ref);
+                        }
+
+                        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+                    }
+                    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_MED) && (state->Gamepad.sThumbRX < INPUT_DEADZONE_HI)) /* Medium speed smooth rotation */
                     {
                         ref.yaw += 2;
                         const auto CONT = Controller::get_instance();
@@ -690,7 +701,7 @@ public:
 
                         // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
                     }
-                    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_10) && (state->Gamepad.sThumbRX < INPUT_DEADZONE_90)) /* Medium speed smooth rotation */
+                    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_LO) && (state->Gamepad.sThumbRX <= INPUT_DEADZONE_MED)) /* Slow speed smooth rotation */
                     {
                         ref.yaw += 1;
                         const auto CONT = Controller::get_instance();
@@ -700,7 +711,17 @@ public:
 
                         // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
                     }
-                    else if (state->Gamepad.sThumbRX <= -INPUT_DEADZONE_90) /* Fast speed smooth rotation */
+                    else if (state->Gamepad.sThumbRX <= -INPUT_DEADZONE_HI) /* Fast speed smooth rotation */
+                    {
+                        ref.yaw -= 3; // = controller_rot_y;
+                        const auto CONT = Controller::get_instance();
+                        if (CONT) {
+                            CONT->SetControlRotation(&ref);
+                        }
+
+                        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+                    }
+                    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_MED) && (state->Gamepad.sThumbRX > -INPUT_DEADZONE_HI)) /* Medium speed smooth rotation */
                     {
                         ref.yaw -= 2; // = controller_rot_y;
                         const auto CONT = Controller::get_instance();
@@ -710,7 +731,7 @@ public:
 
                         // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
                     }
-                    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_10) && (state->Gamepad.sThumbRX >= -INPUT_DEADZONE_90)) /* Medium speed smooth rotation */
+                    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_LO) && (state->Gamepad.sThumbRX >= -INPUT_DEADZONE_MED)) /* Medium speed smooth rotation */
                     {
                         ref.yaw -= 1; // = controller_rot_y;
                         const auto CONT = Controller::get_instance();
