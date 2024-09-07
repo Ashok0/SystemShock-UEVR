@@ -59,7 +59,7 @@ public:
 
 				if (bIsMFDVisible == true)
 				{
-
+					Object->set_IsTryingToVaporizeInventory(false); /* Prevent RT from vaporizing items */
 					return Object; /* Return most recent object */
 				}
 			}
@@ -76,6 +76,11 @@ public:
 	void set_ShouldShowBrackets(const bool val)
 	{
 		set_bool_property(L"ShouldShowBrackets", val);
+	}
+
+	void set_IsTryingToVaporizeInventory(const bool val)
+	{
+		set_bool_property(L"IsTryingToVaporizeInventory", val);
 	}
 
 	void ShowTargetBrackets(bool Visible)

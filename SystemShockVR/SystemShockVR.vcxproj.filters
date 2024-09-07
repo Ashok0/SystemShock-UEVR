@@ -57,6 +57,9 @@
     <ClInclude Include="COMP_MoveControlManager_C.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PAWN_Hacker_Simple_C.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

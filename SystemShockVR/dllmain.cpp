@@ -17,6 +17,7 @@
 #include "Controller.hpp"
 #include "INTERACT_Laptop_C.hpp"
 #include "MOVECONTROL_FocusableInteract_C.hpp"
+#include "PAWN_Hacker_Simple_C.hpp"
 #include "PAWN_SystemShockCharacter_C.hpp"
 #include "SAVE_Settings_C.hpp"
 #include "WIDGET_MainMenu_InGame_C.hpp"
@@ -90,6 +91,7 @@ bool IsEquipped = false;
 bool IKSanityCheck = false;
 bool InteractExit = false;
 bool RoomscaleMontageOverride = false;
+bool IsLean = false;
 
 bool IsSmoothTurn = false;
 bool InitSmoothTurn = false;
@@ -272,6 +274,18 @@ public:
 
                 const auto SSC = SAVE_Settings_C::get_instance();
 
+                const auto PHSC = PAWN_Hacker_Simple_C::get_instance();
+
+                if (PHSC)
+                {
+                    IsLean = PHSC->get_IsTryingToLean();
+
+                    if (IsLean)
+                    {
+                        PHSC->set_IsTryingToLean(false); /* Disable lean input as this can freeze movement in VR */
+                    }
+                }
+
                 /* ========== GESTURE MELEE ========== */
 
                 COMP_HackerInventory_C::get_instance();                    
@@ -363,7 +377,7 @@ public:
                     // API::get()->log_info("pose_y_min = %f", pose_y_min);
                 }
 
-                if ( (IsPhysicalCrouching == false) && (pose_y_current < (pose_y_max-0.5) ) ) /* Check HMD position delta to detect if player is physically crouched */
+                if ( (IsPhysicalCrouching == false) && (pose_y_current < (pose_y_max-0.4) ) ) /* Check HMD position delta to detect if player is physically crouched */
                 {
                     IsPhysicalCrouching = true;
                     // API::get()->log_info("IsPhysicalCrouching = 1");
@@ -372,7 +386,7 @@ public:
                     input.ki.dwFlags = 0;
                     SendInput(1, &input, sizeof(INPUT));
                 }
-                else if ( (IsPhysicalCrouching == true) && (pose_y_current > (pose_y_min + 0.5)))
+                else if ( (IsPhysicalCrouching == true) && (pose_y_current > (pose_y_min + 0.4)))
                 {
                     IsPhysicalCrouching = false;
                     // API::get()->log_info("IsPhysicalCrouching = 0");
@@ -834,6 +848,9 @@ void pawn_Process(uint8_t current_pawn_state)
                 vr->set_mod_value("UI_Distance", "2.000000");
                 vr->set_mod_value("UI_Size", "2.000000");
                 vr->set_mod_value("UI_Y_Offset", "-0.200000");
+                vr->set_mod_value("VR_CameraForwardOffset", "0.000000");
+                vr->set_mod_value("VR_CameraRightOffset", "0.000000");
+                vr->set_mod_value("VR_CameraUpOffset", "0.000000");
                 API::UObjectHook::set_disabled(true);
                 reset_height();
 
@@ -847,6 +864,9 @@ void pawn_Process(uint8_t current_pawn_state)
                 vr->set_mod_value("UI_Distance", "2.000000");
                 vr->set_mod_value("UI_Size", "2.000000");
                 vr->set_mod_value("UI_Y_Offset", "-0.200000");
+                vr->set_mod_value("VR_CameraForwardOffset", "0.000000");
+                vr->set_mod_value("VR_CameraRightOffset", "0.000000");
+                vr->set_mod_value("VR_CameraUpOffset", "0.000000");
                 API::UObjectHook::set_disabled(false);
                 reset_height();
 
@@ -860,6 +880,9 @@ void pawn_Process(uint8_t current_pawn_state)
                 vr->set_mod_value("UI_Distance", "2.000000");
                 vr->set_mod_value("UI_Size", "2.000000");
                 vr->set_mod_value("UI_Y_Offset", "-0.200000");
+                vr->set_mod_value("VR_CameraForwardOffset", "0.000000");
+                vr->set_mod_value("VR_CameraRightOffset", "0.000000");
+                vr->set_mod_value("VR_CameraUpOffset", "0.000000");
                 API::UObjectHook::set_disabled(false);
                 reset_height();
 
@@ -873,6 +896,9 @@ void pawn_Process(uint8_t current_pawn_state)
                 vr->set_mod_value("UI_Distance", "2.000000");
                 vr->set_mod_value("UI_Size", "2.000000");
                 vr->set_mod_value("UI_Y_Offset", "-0.200000");
+                vr->set_mod_value("VR_CameraForwardOffset", "0.000000");
+                vr->set_mod_value("VR_CameraRightOffset", "0.000000");
+                vr->set_mod_value("VR_CameraUpOffset", "0.000000");
                 API::UObjectHook::set_disabled(true);
                 reset_height();
 
