@@ -22,7 +22,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * In-game settings automatically configured for VR.
 * Improved object interaction.  Hold **LT** to enable "interact" mode.  You do not need to enter "interact" mode to interact with objects, but this mode will display a cursor so you can more easily interact with things like weapons, ammo, switches, levers, etc.  Weapons are disabled in this mode as enabling motion controls prevents the cursor from working properly in VR. This mode also temporarily disables Roomscale which allows you to lean closely towards objects and walls without any pushback.  Releasing **LT**, crouching, or picking up auto equip items will exit "interact" mode and re-center you in your playspace.  "Interact" mode is also automatically activated and exited when you use or stop using a keypad, circuit puzzle, or vending machine.
 * Motion controller gesture support.  You can melee attack with the lead pipe, wrench, or laser rapier by swinging your right hand forward in real life.  Holding **RT** while performing a gesture will perform a heavy melee attack.  You can alternatively melee with only **RT**.
-* Improved VR controls when using the Inventory menu.  Press **LT** to select inventory items and inventory sub-menu options (shown with **Y**).  Press **RT** to display additional information on selected inventory items.  
+* Improved VR controls when using the Inventory menu.  The mouse cursor can be controlled with **RS**.  Press **LT** to select inventory items.  Inventory sub-menu options (shown with **Y**) can be selected with **Dpad (Right Thumbrest) + LT**.  Press **RT** to display additional information on selected inventory items.  
 * Roomscale support with Automatic Height Adjustment.
 * Snap Turn support. Enabled by default.
 * Smooth Turn support.  Press **L3+R3** to open up the UEVR overlay.  Select the "Input" tab and set the "Snap Turn Angle" to 359 (for Meta, Index, HTC, and Pimax controllers) or 2 (for Varjo controllers).  This enables smooth turning for seated play.
@@ -56,6 +56,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 ### Interaction & Combat
 * Toggle Interact/Combat Mode: LT
 * Interact: B
+* Exit Interact: X
 * Attack: RT
 * Reload: B
 * Mode Switch: Y
@@ -66,7 +67,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 
 ### MFD
 * Context menu: Y
-* Select context menu option: LT
+* Select context menu option: Dpad (Right Thumbrest) + LT
 * Select item: LT
 * Move item: RS
 * Sort: B
@@ -114,9 +115,6 @@ With default settings, you should always crouch by crouching in real life.  If y
 
 **Pressing *LT* no longer activates Interact mode!**
 If **LT** is not working for you, you may be in a crouched state.  Press **X** to toggle crouching off.  Interact mode is disabled when you are crouched as the cursor only works properly in VR at a standing height.  
-
-**When I load a saved game, my body is floating in space far away from my arms!**
-Press **L3+R3** to bring up the UEVR overlay, select the "Camera" tab, and set the "Camera Offset" values to: 0.0 | 0.0 | 0.0 
 
 **My game crashes to the desktop with a "LowLevelFatalError" message!**
 Performing a clean install of System Shock will resolve the issue.
