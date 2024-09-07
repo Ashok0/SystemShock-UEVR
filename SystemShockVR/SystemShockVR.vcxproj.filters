@@ -60,6 +60,9 @@
     <ClInclude Include="PAWN_Hacker_Simple_C.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WIDGET_InventoryContextMenu_C.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

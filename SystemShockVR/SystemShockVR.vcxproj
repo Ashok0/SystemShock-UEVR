@@ -150,6 +150,7 @@
     <ClInclude Include="PAWN_SystemShockCharacter_C.hpp" />
     <ClInclude Include="INTERACT_Laptop_C.hpp" />
     <ClInclude Include="SAVE_Settings_C.hpp" />
+    <ClInclude Include="WIDGET_InventoryContextMenu_C.hpp" />
     <ClInclude Include="WIDGET_MainMenu_InGame_C.hpp" />
     <ClInclude Include="WIDGET_PlayerHUD_C.hpp" />
     <ClInclude Include="CH_Hacker_AnimBP_C.hpp" />

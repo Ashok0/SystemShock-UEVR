@@ -20,6 +20,7 @@
 #include "PAWN_Hacker_Simple_C.hpp"
 #include "PAWN_SystemShockCharacter_C.hpp"
 #include "SAVE_Settings_C.hpp"
+#include "WIDGET_InventoryContextMenu_C.hpp"
 #include "WIDGET_MainMenu_InGame_C.hpp"
 #include "WIDGET_PlayerHUD_C.hpp"
 #include "pch.h"
@@ -62,6 +63,7 @@ bool IsLaptop = false;
 
 bool IsMFDPrev = false;
 bool IsMFDCurrent = false;
+bool IsContextMenu = false;
 
 bool IsMovementPrev = true;
 bool IsMovementCurrent = true;
@@ -572,6 +574,13 @@ public:
 
                 IsMFDPrev = IsMFDCurrent;
 
+                const auto WICMC = WIDGET_InventoryContextMenu_C::get_instance();
+
+                if (WICMC)
+                {
+                    IsContextMenu = WICMC->get_IsInventoryContextMenuEnabled();
+                }
+
                 const auto HUD = WIDGET_PlayerHUD_C::get_instance();
                 if (HUD) {
                     IsMFDCurrent = HUD->get_is_mfd_visible();
@@ -603,12 +612,29 @@ public:
                             state->Gamepad.wButtons = (state->Gamepad.wButtons & ~XINPUT_GAMEPAD_A);
                         }
 
+                        if ((state->Gamepad.sThumbRY) <= -200 && (IsContextMenu == true))
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN;
+                        }
+                        else if ((state->Gamepad.sThumbRY >= 200) && (IsContextMenu == true))
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_UP;
+                        }
+                        else if ((state->Gamepad.sThumbRX <= -200) && (IsContextMenu == true))
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_LEFT;
+                        }
+                        else if ((state->Gamepad.sThumbRX >= 200) && (IsContextMenu == true))
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_RIGHT;
+                        }
+
                         if (state->Gamepad.bRightTrigger >= 200) {
                             state->Gamepad.bLeftTrigger = 200;
                         }
                         else {
                             state->Gamepad.bLeftTrigger = 0;
-                        }
+                        }                        
                     }
                 }
 
