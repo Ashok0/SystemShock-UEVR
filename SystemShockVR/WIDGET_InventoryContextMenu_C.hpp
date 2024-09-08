@@ -31,7 +31,13 @@ public:
 				Object = List[i];
 
 				std::wstring ObjName = Object->get_full_name();
-				// API::get()->log_info("PAWN_Hacker_Simple_C: Object %d of %d, Object name: %ls", i, List.size(), ObjName.c_str());				
+				// API::get()->log_info("PAWN_Hacker_Simple_C: Object %d of %d, Object name: %ls", i, List.size(), ObjName.c_str());
+
+				bool IsInventoryContextMenuEnabled = Object->get_IsInventoryContextMenuEnabled();
+				if (IsInventoryContextMenuEnabled == true)
+				{
+					return Object;
+				}
 			}
 
 			return Object;
