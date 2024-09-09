@@ -146,6 +146,7 @@
     <ClInclude Include="COMP_MoveControlManager_C.hpp" />
     <ClInclude Include="Controller.hpp" />
     <ClInclude Include="CON_Hacker_C.hpp" />
+    <ClInclude Include="cxxtimer.hpp" />
     <ClInclude Include="PAWN_Hacker_Simple_C.hpp" />
     <ClInclude Include="PAWN_SystemShockCharacter_C.hpp" />
     <ClInclude Include="INTERACT_Laptop_C.hpp" />

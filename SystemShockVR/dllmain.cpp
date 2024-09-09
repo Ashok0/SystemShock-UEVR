@@ -8,6 +8,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "cxxtimer.hpp"
+
 #include "uevr/Plugin.hpp"
 #include "CH_Hacker_AnimBP_C.hpp"
 #include "CharacterAction_C.hpp"
@@ -58,6 +60,9 @@ using namespace uevr;
 #define INPUT_DEADZONE_HI  ( 0.90f * FLOAT(0x7FFF) )  // Default to 90% of the +/- 32767 range.
 #define INPUT_DEADZONE_MED ( 0.45f * FLOAT(0x7FFF) )  // Default to 45% of the +/- 32767 range.
 #define INPUT_DEADZONE_LO  ( 0.01f * FLOAT(0x7FFF) )  // Default to 01% of the +/- 32767 range.
+
+// Instantiate cxxtimer::Timer object
+cxxtimer::Timer timer;
 
 bool IsLaptop = false;
 
@@ -223,6 +228,7 @@ public:
     void on_xinput_get_state(uint32_t* retval, uint32_t user_index, XINPUT_STATE* state) {
 
         static bool ButtonsDownL = false;
+        static bool ButtonsDownY = false;
 
         if (state != NULL) {
           
@@ -358,6 +364,32 @@ public:
                     KeyDown = false;
                     input.ki.dwFlags = KEYEVENTF_KEYUP;
                     SendInput(1, &input, sizeof(INPUT));
+                }
+
+                static bool KeyDown2 = false;
+
+                INPUT input2;
+                ZeroMemory(&input2, sizeof(INPUT));
+                input2.type = INPUT_KEYBOARD;
+                input2.ki.wVk = VK_TAB;
+
+                if (KeyDown2 == true) {
+                    KeyDown2 = false;
+                    input2.ki.dwFlags = KEYEVENTF_KEYUP;
+                    SendInput(1, &input2, sizeof(INPUT));
+                }
+
+                static bool KeyDown3 = false;
+
+                INPUT input3;
+                ZeroMemory(&input3, sizeof(INPUT));
+                input3.type = INPUT_KEYBOARD;
+                input3.ki.wVk = VK_ESCAPE;
+
+                if (KeyDown3 == true) {
+                    KeyDown3 = false;
+                    input3.ki.dwFlags = KEYEVENTF_KEYUP;
+                    SendInput(1, &input3, sizeof(INPUT));
                 }
 
                 const auto hmd_index = API::get()->param()->vr->get_hmd_index();
@@ -520,13 +552,59 @@ public:
                 if ( (IsInteractMode == true) && (IsEquipped == false) )
                 {
                     IKSanityCheck = true; /* Check if any events occur in Interact mode that would require motion controls to be re-enabled */
+
+                    if (IsMFDCurrent == false)
+                    {
+                        // Vibration flag, clear it on Y button release.
+                        if (ButtonsDownY == true)
+                        {
+                            if (timer.count<std::chrono::milliseconds>() >= 500) /* Open MFD if Y held down 500ms in Interact mode */
+                            {
+                                KeyDown2 = true;
+                                input2.ki.dwFlags = 0;
+                                SendInput(1, &input2, sizeof(INPUT));
+
+                                timer.stop();
+                                timer.reset();
+
+                                IsMFDCurrent = true;
+                                ButtonsDownY = false;
+                            }
+
+                            if (!(state->Gamepad.wButtons & XINPUT_GAMEPAD_Y))  /* Open menu if Y held down <500ms in Interact mode */
+                            {
+                                ButtonsDownY = false;
+
+                                timer.stop();
+
+                                if (timer.count<std::chrono::milliseconds>() < 500)
+                                {
+                                    KeyDown3 = true;
+                                    input3.ki.dwFlags = 0;
+                                    SendInput(1, &input3, sizeof(INPUT));
+                                }
+
+                                timer.reset();
+                            }
+                        }
+                        else 
+                        {
+                            if (state->Gamepad.wButtons & XINPUT_GAMEPAD_Y)
+                            {
+                                ButtonsDownY = true;
+
+                                // Start the timer
+                                timer.start();                              
+                            }
+                        }
+                    }
                 }
 
                 // API::get()->log_error("IsInteractMode = %d, IsEquipped = %d, IKSanityCheck = %d", IsInteractMode, IsEquipped, IKSanityCheck);
 
                 if (IKSanityCheck == true)
                 {
-                    if ((IsEquipped == true) || (InteractExit == true) || (IsCrouchingCurrent == true)) /* Restore motion controls if pickup item, montage, or crouching is active */
+                    if ((IsEquipped == true) || (InteractExit == true) || (IsCrouchingCurrent == true) || (IsMFDCurrent == true) || (IsMainMenuCurrent == true)) /* Restore motion controls if pickup item, montage, or crouching is active */
                     {
                         // API::get()->log_error("InteractExit = %d", InteractExit);
 
@@ -612,21 +690,35 @@ public:
                             state->Gamepad.wButtons = (state->Gamepad.wButtons & ~XINPUT_GAMEPAD_A);
                         }
 
-                        if ((state->Gamepad.sThumbRY) <= -200 && (IsContextMenu == true))
+                        if (IsContextMenu == true)
                         {
-                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN;
-                        }
-                        else if ((state->Gamepad.sThumbRY >= 200) && (IsContextMenu == true))
-                        {
-                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_UP;
-                        }
-                        else if ((state->Gamepad.sThumbRX <= -200) && (IsContextMenu == true))
-                        {
-                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_LEFT;
-                        }
-                        else if ((state->Gamepad.sThumbRX >= 200) && (IsContextMenu == true))
-                        {
-                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_RIGHT;
+                            if (state->Gamepad.sThumbRY <= -200)
+                            {
+                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN;
+                            }
+                            else if (state->Gamepad.sThumbRY >= 200)
+                            {
+                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_UP;
+                            }
+                            else if (state->Gamepad.sThumbRX <= -200)
+                            {
+                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_LEFT;
+                            }
+                            else if (state->Gamepad.sThumbRX >= 200)
+                            {
+                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_RIGHT;
+                            }
+
+                            if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
+                            {
+                                state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_LEFT_SHOULDER;  /* Disable LGrip */
+                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_UP; /* Cycle context menu with grip buttons */
+                            }
+                            else if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
+                            {
+                                state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_RIGHT_SHOULDER; /* Disable RGrip */
+                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN; /* Cycle context menu with grip buttons */
+                            }
                         }
 
                         if (state->Gamepad.bRightTrigger >= 200) {
@@ -699,6 +791,32 @@ public:
                     if(IKSanityCheck == true)InteractExit = true;
                     if(IsInteractMode == false)IsBracket = false;
                     ActivateIK = false;
+                }
+            }
+
+            /* =================== REBIND GRIP BUTTONS =================== */
+
+            if((IsMFDCurrent == false) && (IsMainMenuCurrent == false))
+            {
+                if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
+                {
+                    state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_LEFT_SHOULDER; /* Disable LGrip */
+                }
+                
+                if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
+                {
+                    state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_RIGHT_SHOULDER; /* Disable RGrip */                
+
+                    if (state->Gamepad.sThumbLX >= INPUT_DEADZONE_LO)
+                    {
+                        state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_RIGHT; /* Remap DPad Right for hotbar */
+                    }
+                    else if (state->Gamepad.sThumbLX <= -INPUT_DEADZONE_LO)
+                    {
+                        state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_LEFT; /* Remap DPad Left for hotbar */
+                    }
+
+                    state->Gamepad.sThumbLX = 0; /* Prevent rotating while holding RGrip */
                 }
             }
 
@@ -805,7 +923,7 @@ public:
 
             /* ========== MANUAL HEIGHT CALIBRATION ========== */
 
-            // Vibration flag, clear it on right trigger release.
+            // Vibration flag, clear it on release.
             if (ButtonsDownL == true) {
                 if (state->Gamepad.bLeftTrigger <= 100 && !(state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB))
                     ButtonsDownL = false;
