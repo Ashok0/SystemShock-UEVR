@@ -585,6 +585,7 @@ public:
                                 }
 
                                 timer.reset();
+                                IsMainMenuCurrent = true;
                             }
                         }
                         else 
