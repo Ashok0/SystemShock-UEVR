@@ -27,8 +27,9 @@
 #include "WIDGET_PlayerHUD_C.hpp"
 #include "pch.h"
 
-void reset_height();
+void send_key(WORD key, bool key_up);
 void anim_cine_intro_height_recalibration();
+void reset_height();
 void pawn_Process(uint8_t current_pawn_state);
 
 typedef struct _TIMER_STRUCT
@@ -63,6 +64,8 @@ using namespace uevr;
 
 // Instantiate cxxtimer::Timer object
 cxxtimer::Timer timer;
+
+bool KEY_DN = false;
 
 bool IsLaptop = false;
 
@@ -100,6 +103,7 @@ bool InteractExit = false;
 bool RoomscaleMontageOverride = false;
 bool IsLean = false;
 
+bool IsSprinting = false;
 bool IsSmoothTurn = false;
 bool InitSmoothTurn = false;
 char snap_angle;
@@ -353,45 +357,6 @@ public:
 
                 /* ========== PHYSICAL CROUCHING ========== */
 
-                static bool KeyDown = false;
-
-                INPUT input;
-                ZeroMemory(&input, sizeof(INPUT));
-                input.type = INPUT_KEYBOARD;
-                input.ki.wVk = VK_LCONTROL;
-
-                if (KeyDown == true) {
-                    KeyDown = false;
-                    input.ki.dwFlags = KEYEVENTF_KEYUP;
-                    SendInput(1, &input, sizeof(INPUT));
-                }
-
-                static bool KeyDown2 = false;
-
-                INPUT input2;
-                ZeroMemory(&input2, sizeof(INPUT));
-                input2.type = INPUT_KEYBOARD;
-                input2.ki.wVk = VK_TAB;
-
-                if (KeyDown2 == true) {
-                    KeyDown2 = false;
-                    input2.ki.dwFlags = KEYEVENTF_KEYUP;
-                    SendInput(1, &input2, sizeof(INPUT));
-                }
-
-                static bool KeyDown3 = false;
-
-                INPUT input3;
-                ZeroMemory(&input3, sizeof(INPUT));
-                input3.type = INPUT_KEYBOARD;
-                input3.ki.wVk = VK_ESCAPE;
-
-                if (KeyDown3 == true) {
-                    KeyDown3 = false;
-                    input3.ki.dwFlags = KEYEVENTF_KEYUP;
-                    SendInput(1, &input3, sizeof(INPUT));
-                }
-
                 const auto hmd_index = API::get()->param()->vr->get_hmd_index();
 
                 API::get()->param()->vr->get_pose(hmd_index, &pose, &rot);
@@ -416,18 +381,16 @@ public:
                     IsPhysicalCrouching = true;
                     // API::get()->log_info("IsPhysicalCrouching = 1");
 
-                    KeyDown = true;
-                    input.ki.dwFlags = 0;
-                    SendInput(1, &input, sizeof(INPUT));
+                    KEY_DN = true;
+                    send_key(VK_LCONTROL, KEY_DN);
                 }
                 else if ( (IsPhysicalCrouching == true) && (pose_y_current > (pose_y_min + 0.4)))
                 {
                     IsPhysicalCrouching = false;
                     // API::get()->log_info("IsPhysicalCrouching = 0");
 
-                    KeyDown = true;
-                    input.ki.dwFlags = 0;
-                    SendInput(1, &input, sizeof(INPUT));
+                    KEY_DN = true;
+                    send_key(VK_LCONTROL, KEY_DN);
                 }                
 
                 /* ========== DEATH ANIMATION FIX ========== */
@@ -560,9 +523,8 @@ public:
                         {
                             if (timer.count<std::chrono::milliseconds>() >= 500) /* Open MFD if Y held down 500ms in Interact mode */
                             {
-                                KeyDown2 = true;
-                                input2.ki.dwFlags = 0;
-                                SendInput(1, &input2, sizeof(INPUT));
+                                KEY_DN = true;
+                                send_key(VK_TAB, KEY_DN);
 
                                 timer.stop();
                                 timer.reset();
@@ -579,9 +541,8 @@ public:
 
                                 if (timer.count<std::chrono::milliseconds>() < 500)
                                 {
-                                    KeyDown3 = true;
-                                    input3.ki.dwFlags = 0;
-                                    SendInput(1, &input3, sizeof(INPUT));
+                                    KEY_DN = true;
+                                    send_key(VK_ESCAPE, KEY_DN);
                                 }
 
                                 timer.reset();
@@ -798,10 +759,25 @@ public:
             /* =================== REBIND GRIP BUTTONS =================== */
 
             if((IsMFDCurrent == false) && (IsMainMenuCurrent == false))
-            {
+            {                
+                if (abs(state->Gamepad.sThumbLX) <= INPUT_DEADZONE_MED && abs(state->Gamepad.sThumbLY) <= INPUT_DEADZONE_MED)
+                {
+                    IsSprinting = false; /* Disable sprinting state */
+                }
+
+                if (IsSprinting)
+                {
+                    state->Gamepad.wButtons |= XINPUT_GAMEPAD_LEFT_THUMB; /* Enable sprinting */
+                }
+
                 if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
                 {
                     state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_LEFT_SHOULDER; /* Disable LGrip */
+
+                    if (abs(state->Gamepad.sThumbLX) >= INPUT_DEADZONE_HI || abs(state->Gamepad.sThumbLY) >= INPUT_DEADZONE_HI)
+                    {
+                        IsSprinting = true;  /* Enable sprinting state */
+                    }
                 }
                 
                 if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
@@ -940,6 +916,24 @@ public:
         }
     }
 };
+
+void send_key(WORD key, bool key_dn)
+{
+    INPUT input;
+    ZeroMemory(&input, sizeof(INPUT));
+    input.type = INPUT_KEYBOARD;
+    input.ki.wVk = key;
+    if (key_dn == true) 
+    {
+        key_dn = false;
+
+        input.ki.dwFlags = 0;
+        SendInput(1, &input, sizeof(INPUT));
+
+        input.ki.dwFlags = KEYEVENTF_KEYUP;
+        SendInput(1, &input, sizeof(INPUT));
+    }
+}
 
 void anim_cine_intro_height_recalibration() {
 
