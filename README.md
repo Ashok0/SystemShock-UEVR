@@ -1,4 +1,4 @@
-# System Shock v1.2 UEVR Plugin
+# System Shock Remake UEVR Plugin
 This System Shock mod brings VR support complete with 6DOF motion controls to one of the greatest immersive sims of all time!  This VR mod consists of:
 
 1) A UEVR profile and C++ plugin (Bundled together)
@@ -54,13 +54,14 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * Sprint: LS (Dn)  
 
 ### Interaction & Combat
-* Toggle Interact/Combat Mode: LT
+* Interact Mode (Cursor): LT
 * Interact: B
 * Exit Interact: X
 * Attack: RT
 * Reload: B
 * Mode Switch: Y
-* Toggle MFD: MENU
+* Main Menu: System Button (Hold < 1s)
+* MFD: SYSTEM (Hold > 1s)
 * Use Explosive: RB
 * Use Consumable: LB
 * Previous/Next Hotbar Item: Dpad (Right Thumbrest) + LS
@@ -72,6 +73,8 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * Move item: RS
 * Sort: B
 * Analyze: RT
+* Previous Tab: Left Grip
+* Next Tab: Right Grip
 
 ### Cyberspace
 * Move: LS
@@ -118,6 +121,9 @@ If **LT** is not working for you, you may be in a crouched state.  Press **X** t
 
 **My game crashes to the desktop with a "LowLevelFatalError" message!**
 Performing a clean install of System Shock will resolve the issue.
+
+**My game crashes to the desktop when using the inventory menu!**
+Uninstall prior installed System Shock mods from your Steam folder as incompatible mods may cause System Shock to crash to the desktop.
 
 **My weapons are invisible!** This issue can occur when using an older flat saved game in VR.  Restarting the game with a clean saved game will resolve the issue.
 
