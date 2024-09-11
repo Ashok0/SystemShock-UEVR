@@ -39,12 +39,13 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * SystemShock-VRFixes_p.pak: Oculus Touch button prompts.
 
 ## Installation
-1) Install the nightly build of UEVR (at least UEVR Nightly 938 required) from [**HERE**](https://github.com/praydog/UEVR-nightly/releases).
-2) Download the latest release of the System Shock UEVR plugin from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases). Click "Import Config" in the UEVR UI and navigate to "SystemReShock-Win64-Shipping.zip" and click on it and accept the DLL warning.
-3) (Optional) Download the latest PAK mod from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases).  Copy the .pak file to \Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks
-4) (Optional) For Valve Index users only, the System button must be mapped to the left touchpad and the right touchpad must be configured as a right thumbrest in the SteamVR bindings.
-5) (Optional) For seated play, delete "17105528413843615245_props.json" from your UEVR global directory to disable physical crouching.  This will allow you to manually crouch by pressing **X**.
-6) Launch System Shock and inject the game with UEVR!
+1) Install a clean copy of System Shock Remake and delete any existing System Shock profiles from your UEVR global folder if installed.
+2) Install the nightly build of UEVR (at least UEVR Nightly 938 required) from [**HERE**](https://github.com/praydog/UEVR-nightly/releases).
+3) Download the latest release of the System Shock UEVR plugin from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases). Click "Import Config" in the UEVR UI and navigate to "SystemReShock-Win64-Shipping.zip" and click on it and accept the DLL warning.
+4) (Optional) Download the latest PAK mod from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases).  Copy the .pak file to \Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks
+5) (Optional) For Valve Index users only, the System button must be mapped to the left touchpad and the right touchpad must be configured as a right thumbrest in the SteamVR bindings.
+6) (Optional) For seated play, delete "17105528413843615245_props.json" from your UEVR global directory to disable physical crouching.  This will allow you to manually crouch by pressing **X**.
+7) Launch System Shock and inject the game with UEVR!
 
 ## Controls
 ### General
