@@ -95,6 +95,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * Moving around in your play area after interacting with keypads/circuit puzzles/vending machines can cause the crosshair to become misaligned.
 * Inject the game during the opening splash screens. If you inject after the title screen loads, this can result in a bug where a mouse cursor is visible in your view.
 3) If you have issues with motion control "jitter", you can minimize the issue by reducing your "Graphics" settings.
+4) If you get "stuck" while crawling through the vents in Research Labs, you can get "unstuck" by jumping (A) and/or standing up and crouching again while holding the left stick forward.  
 
 ## FAQ
 **Can I adjust settings for the game when using this mod?**
