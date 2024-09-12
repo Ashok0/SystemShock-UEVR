@@ -36,15 +36,13 @@ public:
 				if (ObjName.find(L"GI_SinglePlayer_C") != std::wstring::npos)
 				{
 					// API::get()->log_info("WIDGET_MainMenu_InGame_C found");
-					if ((Object->get_IsMainMenuEnabled() == false) || (i== List.size()-1)) {
+					if (Object->get_IsMainMenuEnabled() == true) {
 						return Object;
 					}
 				}
-				else
-				{
-					// API::get()->log_info("WIDGET_MainMenu_InGame_C not found");
-				}
 			}
+
+			return Object;
 		}
 		return nullptr;
 	}
