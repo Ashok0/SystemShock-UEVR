@@ -120,6 +120,7 @@ float controller_rot_y = 0.0f;
 
 float old_position[3] = { 0.0 };
 float difference[3] = { 0.0 };
+float difference_adjusted[3] = { 0.0 };
 float abs_difference[3] = { 0.0 };
 
 bool melee_attack = false;
@@ -132,6 +133,8 @@ bool melee_fwd = false;
 
 int melee_dn_count = 0;
 int melee_fwd_count = 0;
+
+int old_difference = 0;
 
 class SystemShockPlugin : public uevr::Plugin {
 public:
@@ -165,6 +168,8 @@ public:
         abs_difference[1] = abs(difference[1]);
         difference[2] = right_position.z - old_position[2];
         abs_difference[2] = abs(difference[2]);
+
+        difference_adjusted[2] = difference[2] + old_difference;
         // API::get()->log_info("speed.y = %f", difference[1]);
         // API::get()->log_info("speed.z = %f", difference[2]);
 
@@ -173,7 +178,7 @@ public:
             melee_dn = true;
         }
 
-        if (difference[2] <= -.012)
+        if (difference_adjusted[2] <= -.012)
         {
             melee_fwd = true;           
         }
@@ -197,6 +202,9 @@ public:
         old_position[0] = right_position.x;
         old_position[1] = right_position.y;
         old_position[2] = right_position.z;
+
+        old_difference = 0;
+        if (difference[2] < 0)old_difference = difference[2];
 
         if (melee_fwd == true)melee_fwd_count++;
         if (melee_dn == true)melee_dn_count++;
@@ -754,46 +762,46 @@ public:
                     if(IsInteractMode == false)IsBracket = false;
                     ActivateIK = false;
                 }
-            }
 
-            /* =================== REBIND GRIP BUTTONS =================== */
+                /* =================== REBIND GRIP BUTTONS =================== */
 
-            if((IsMFDCurrent == false) && (IsMainMenuCurrent == false))
-            {                
-                if (abs(state->Gamepad.sThumbLX) <= INPUT_DEADZONE_MED && abs(state->Gamepad.sThumbLY) <= INPUT_DEADZONE_MED)
+                if ((IsMFDCurrent == false) && (IsMainMenuCurrent == false))
                 {
-                    IsSprinting = false; /* Disable sprinting state */
-                }
-
-                if (IsSprinting)
-                {
-                    state->Gamepad.wButtons |= XINPUT_GAMEPAD_LEFT_THUMB; /* Enable sprinting */
-                }
-
-                if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
-                {
-                    state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_LEFT_SHOULDER; /* Disable LGrip */
-
-                    if (abs(state->Gamepad.sThumbLX) >= INPUT_DEADZONE_HI || abs(state->Gamepad.sThumbLY) >= INPUT_DEADZONE_HI)
+                    if (abs(state->Gamepad.sThumbLX) <= INPUT_DEADZONE_MED && abs(state->Gamepad.sThumbLY) <= INPUT_DEADZONE_MED)
                     {
-                        IsSprinting = true;  /* Enable sprinting state */
-                    }
-                }
-                
-                if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
-                {
-                    state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_RIGHT_SHOULDER; /* Disable RGrip */                
-
-                    if (state->Gamepad.sThumbLX >= INPUT_DEADZONE_LO)
-                    {
-                        state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_RIGHT; /* Remap DPad Right for hotbar */
-                    }
-                    else if (state->Gamepad.sThumbLX <= -INPUT_DEADZONE_LO)
-                    {
-                        state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_LEFT; /* Remap DPad Left for hotbar */
+                        IsSprinting = false; /* Disable sprinting state */
                     }
 
-                    state->Gamepad.sThumbLX = 0; /* Prevent rotating while holding RGrip */
+                    if (IsSprinting)
+                    {
+                        state->Gamepad.wButtons |= XINPUT_GAMEPAD_LEFT_THUMB; /* Enable sprinting */
+                    }
+
+                    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
+                    {
+                        state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_LEFT_SHOULDER; /* Disable LGrip */
+
+                        if (abs(state->Gamepad.sThumbLX) >= INPUT_DEADZONE_HI || abs(state->Gamepad.sThumbLY) >= INPUT_DEADZONE_HI)
+                        {
+                            IsSprinting = true;  /* Enable sprinting state */
+                        }
+                    }
+
+                    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
+                    {
+                        state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_RIGHT_SHOULDER; /* Disable RGrip */
+
+                        if (state->Gamepad.sThumbLX >= INPUT_DEADZONE_LO)
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_RIGHT; /* Remap DPad Right for hotbar */
+                        }
+                        else if (state->Gamepad.sThumbLX <= -INPUT_DEADZONE_LO)
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_LEFT; /* Remap DPad Left for hotbar */
+                        }
+
+                        state->Gamepad.sThumbLX = 0; /* Prevent rotating while holding RGrip */
+                    }
                 }
             }
 

@@ -14,7 +14,9 @@ typedef enum eAnimationState
 	ANIM_SURGICALBED_LEFT_ENTER,
 	ANIM_SURGICALBED_LEFT_EXIT,
 	ANIM_DEATH_P,
-	ANIM_TERMINAL_USE
+	ANIM_TERMINAL_USE,
+	ANIM_TERMINAL_DISMOUNT,
+	ANIM_RESPAWN
 }
 animation_State_t;
 
@@ -24,6 +26,7 @@ bool CryobedWakeIsActive = false;
 bool RightExitIsActive = false;
 bool LeftExitIsActive = false;
 bool TerminalIsActive = false;
+bool RespawnIsActive = false;
 
 extern bool RoomscaleMontageOverride;
 
@@ -105,7 +108,7 @@ public:
 					{
 						API::UObjectHook::set_disabled(true);
 					}
-					else if ((ElapsedPlayTime == 0.0) && (Montage == ANIM_TERMINAL_USE))
+					else if ((ElapsedPlayTime >= 0.0) && (Montage == ANIM_TERMINAL_USE))
 					{
 						TerminalIsActive = true;
 						API::UObjectHook::set_disabled(true);
@@ -115,6 +118,24 @@ public:
 						RoomscaleMontageOverride = true;
 					}
 					else if ((ElapsedPlayTime == -1.0) && (Montage == ANIM_TERMINAL_USE) && (TerminalIsActive == true))
+					{
+						TerminalIsActive = false;
+						API::UObjectHook::set_disabled(false);
+
+						auto& vr = API::get()->param()->vr;
+						vr->set_mod_value("VR_RoomscaleMovement", "true");
+						RoomscaleMontageOverride = false;
+					}
+					else if ((ElapsedPlayTime >= 0.0) && (Montage == ANIM_TERMINAL_DISMOUNT))
+					{
+						TerminalIsActive = true;
+						API::UObjectHook::set_disabled(true);
+
+						auto& vr = API::get()->param()->vr;
+						vr->set_mod_value("VR_RoomscaleMovement", "false");
+						RoomscaleMontageOverride = true;
+					}
+					else if ((ElapsedPlayTime == -1.0) && (Montage == ANIM_TERMINAL_DISMOUNT) && (TerminalIsActive == true))
 					{
 						TerminalIsActive = false;
 						API::UObjectHook::set_disabled(false);
@@ -135,6 +156,24 @@ public:
 					else if ((ElapsedPlayTime == -1.0) && (Montage == ANIM_CRYOBED_WAKE) && (CryobedWakeIsActive == true) )
 					{
 						CryobedWakeIsActive = false;
+						API::UObjectHook::set_disabled(false);
+
+						auto& vr = API::get()->param()->vr;
+						vr->set_mod_value("VR_RoomscaleMovement", "true");
+						RoomscaleMontageOverride = false;
+					}
+					else if ((ElapsedPlayTime >= 0.0) && (Montage == ANIM_RESPAWN))
+					{
+						RespawnIsActive = true;
+						API::UObjectHook::set_disabled(true);
+
+						auto& vr = API::get()->param()->vr;
+						vr->set_mod_value("VR_RoomscaleMovement", "false");
+						RoomscaleMontageOverride = true;
+					}
+					else if ((ElapsedPlayTime == -1.0) && (Montage == ANIM_RESPAWN) && (RespawnIsActive == true))
+					{
+						RespawnIsActive = false;
 						API::UObjectHook::set_disabled(false);
 
 						auto& vr = API::get()->param()->vr;
@@ -199,9 +238,17 @@ public:
 			{
 				return ANIM_TERMINAL_USE;
 			}
+			else if (ObjName.find(L"CH_Hacker_Terminal_Dismount_Montage") != std::wstring::npos)
+			{
+				return ANIM_TERMINAL_DISMOUNT;
+			}
 			else if (ObjName.find(L"CH_Hacker_Cryobed_Wake_Montage") != std::wstring::npos)
 			{
 				return ANIM_CRYOBED_WAKE;
+			}
+			else if (ObjName.find(L"CH_Hacker_respawn") != std::wstring::npos)
+			{
+				return ANIM_RESPAWN;
 			}
 			else
 			{
