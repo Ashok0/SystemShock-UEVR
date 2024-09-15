@@ -59,6 +59,7 @@ public:
 
 				if (bIsMFDVisible == true)
 				{
+					Object->set_IsTryingToVaporizeInventory(false); /* Prevent RT from vaporizing items */
 					return Object; /* Return most recent object */
 				}
 			}
@@ -95,5 +96,10 @@ public:
 		} params{ .Visible = Visible };
 
 		process_event(func, &params);
+	}
+
+	void set_IsTryingToVaporizeInventory(const bool val)
+	{
+		set_bool_property(L"IsTryingToVaporizeInventory", val);
 	}
 };
