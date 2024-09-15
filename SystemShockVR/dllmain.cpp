@@ -72,6 +72,8 @@ bool IsLaptop = false;
 bool IsMFDPrev = false;
 bool IsMFDCurrent = false;
 bool IsContextMenu = false;
+bool ContextMode = false;
+bool SendKeyDebounce = false;
 
 bool IsMovementPrev = true;
 bool IsMovementCurrent = true;
@@ -122,6 +124,7 @@ float old_position[3] = { 0.0 };
 float difference[3] = { 0.0 };
 float difference_adjusted[3] = { 0.0 };
 float abs_difference[3] = { 0.0 };
+float old_difference = 0.0;
 
 bool melee_attack = false;
 bool rapier_attack = false;
@@ -133,8 +136,6 @@ bool melee_fwd = false;
 
 int melee_dn_count = 0;
 int melee_fwd_count = 0;
-
-int old_difference = 0;
 
 class SystemShockPlugin : public uevr::Plugin {
 public:
@@ -653,15 +654,25 @@ public:
                 if (IsMFDCurrent == true) /* Remap inventory controls for VR */
                 {
                     if (state != NULL) {
-                        if (state->Gamepad.bLeftTrigger >= 200) {
-                            state->Gamepad.wButtons = (state->Gamepad.wButtons | XINPUT_GAMEPAD_A);
-                        }
-                        else {
-                            state->Gamepad.wButtons = (state->Gamepad.wButtons & ~XINPUT_GAMEPAD_A);
-                        }
 
                         if (IsContextMenu == true)
                         {
+                            if (!(state->Gamepad.wButtons & XINPUT_GAMEPAD_Y))
+                            {
+                                ContextMode = true;
+                                SendKeyDebounce = false;
+                            }
+
+                            if ((state->Gamepad.wButtons & XINPUT_GAMEPAD_Y) && ContextMode == true)
+                            {
+                                if (SendKeyDebounce == false)
+                                {
+                                    SendKeyDebounce = true;
+                                    KEY_DN = true;
+                                    send_key(VK_RETURN, KEY_DN);
+                                }
+                            }
+
                             if (state->Gamepad.sThumbRY <= -200)
                             {
                                 state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN;
@@ -688,6 +699,17 @@ public:
                             {
                                 state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_RIGHT_SHOULDER; /* Disable RGrip */
                                 state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN; /* Cycle context menu with grip buttons */
+                            }
+                        }
+                        else
+                        {
+                            ContextMode = false;
+
+                            if (state->Gamepad.bLeftTrigger >= 200) {
+                                state->Gamepad.wButtons = (state->Gamepad.wButtons | XINPUT_GAMEPAD_A);
+                            }
+                            else {
+                                state->Gamepad.wButtons = (state->Gamepad.wButtons & ~XINPUT_GAMEPAD_A);
                             }
                         }
 
