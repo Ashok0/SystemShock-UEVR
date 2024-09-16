@@ -16,7 +16,6 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * Lua script with the following features:
   * Hides unnecessary floating arm meshes when weapons are holstered.
   * Motion control fixes to better align weapons with your hands in real life.
-* By default, UEVR allows you to access the main menu by tapping the left "System" button.  You can access the Neural Interface / Multi-Function Display (MFD) by holding the left "System" button for one second.  The hotbar can be accessed with the left analog stick + Dpad (right thumb rest).  Note that movement is disabled when using Dpad.
 
 ### VR Plugin
 * In-game settings automatically configured for VR.
