@@ -11,8 +11,8 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * 6DOF motion controls.
 * ADS support.  Projectiles are aligned with gun sights for added VR immersion.
 * Disable On Screen Effects to fix intro cutscene.
-* Fix transparency effects in left eye issue.
-* The culler is attached to the HMD to prevent "blackout" when looking around in VR.
+* Fix issue with transparency effects only appearing in left eye.
+* The culler is attached to the HMD with an increased FOV to prevent "blackout" when looking around in VR.
 * Lua script with the following features:
   * Hides unnecessary floating arm meshes when weapons are holstered.
   * Motion control fixes to better align weapons with your hands in real life.
