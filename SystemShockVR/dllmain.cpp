@@ -74,6 +74,7 @@ bool IsMFDCurrent = false;
 bool IsContextMenu = false;
 bool ContextMode = false;
 bool SendKeyDebounce = false;
+bool VaporizeInventory = false;
 
 bool IsMovementPrev = true;
 bool IsMovementCurrent = true;
@@ -111,6 +112,7 @@ bool InitSmoothTurn = false;
 char snap_angle;
 
 bool IsBracket = false;
+bool ButtonsDownY = false;
 
 uint8_t last_pawn_state = PAWN_UNKNOWN;
 uint8_t current_pawn_state = PAWN_UNKNOWN;
@@ -239,9 +241,6 @@ public:
 // This is the controller input routine. Everything happens here.
 //*******************************************************************************************
     void on_xinput_get_state(uint32_t* retval, uint32_t user_index, XINPUT_STATE* state) {
-
-        static bool ButtonsDownL = false;
-        static bool ButtonsDownY = false;
 
         if (state != NULL) {
           
@@ -633,6 +632,14 @@ public:
                 const auto HUD = WIDGET_PlayerHUD_C::get_instance();
                 if (HUD) {
                     IsMFDCurrent = HUD->get_is_mfd_visible();
+
+                    if (VaporizeInventory == false) {
+                        HUD->set_IsTryingToVaporizeInventory(false); /* Prevent RT from vaporizing items */
+                    }
+                    else
+                    {
+                        HUD->set_IsTryingToVaporizeInventory(true); /* Vaporize items on rebinded input */
+                    }
                 }
 
                 if (IsMFDPrev != IsMFDCurrent)
@@ -653,73 +660,88 @@ public:
 
                 if (IsMFDCurrent == true) /* Remap inventory controls for VR */
                 {
-                    if (state != NULL) {
-
-                        if (IsContextMenu == true)
+                    if (IsContextMenu == true)
+                    {
+                        if (!(state->Gamepad.wButtons & XINPUT_GAMEPAD_Y))
                         {
-                            if (!(state->Gamepad.wButtons & XINPUT_GAMEPAD_Y))
+                            ContextMode = true;
+                            SendKeyDebounce = false;
+                        }
+                        
+                        if ((state->Gamepad.wButtons & XINPUT_GAMEPAD_Y) && ContextMode == true)
+                        {
+                            if (SendKeyDebounce == false)
                             {
-                                ContextMode = true;
-                                SendKeyDebounce = false;
+                                SendKeyDebounce = true;
+                                KEY_DN = true;
+                                send_key(VK_RETURN, KEY_DN);
                             }
+                        }
 
-                            if ((state->Gamepad.wButtons & XINPUT_GAMEPAD_Y) && ContextMode == true)
-                            {
-                                if (SendKeyDebounce == false)
-                                {
-                                    SendKeyDebounce = true;
-                                    KEY_DN = true;
-                                    send_key(VK_RETURN, KEY_DN);
-                                }
-                            }
+                        if (state->Gamepad.sThumbRY <= -200)
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN;
+                        }
+                        else if (state->Gamepad.sThumbRY >= 200)
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_UP;
+                        }
+                        else if (state->Gamepad.sThumbRX <= -200)
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_LEFT;
+                        }
+                        else if (state->Gamepad.sThumbRX >= 200)
+                        {
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_RIGHT;
+                        }
 
-                            if (state->Gamepad.sThumbRY <= -200)
-                            {
-                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN;
-                            }
-                            else if (state->Gamepad.sThumbRY >= 200)
-                            {
-                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_UP;
-                            }
-                            else if (state->Gamepad.sThumbRX <= -200)
-                            {
-                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_LEFT;
-                            }
-                            else if (state->Gamepad.sThumbRX >= 200)
-                            {
-                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_RIGHT;
-                            }
+                        if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
+                        {
+                            state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_LEFT_SHOULDER;  /* Disable LGrip */
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_UP; /* Cycle context menu with grip buttons */
+                        }
+                        else if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
+                        {
+                            state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_RIGHT_SHOULDER; /* Disable RGrip */
+                            state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN; /* Cycle context menu with grip buttons */
+                        }
+                    }
+                    else
+                    {
+                        ContextMode = false;
+                        
+                        if (timer.count<std::chrono::milliseconds>() >= 1000)
+                        {
+                            VaporizeInventory = true;
+                            timer.stop();
+                            timer.reset();
+                        }
 
-                            if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
-                            {
-                                state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_LEFT_SHOULDER;  /* Disable LGrip */
-                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_UP; /* Cycle context menu with grip buttons */
-                            }
-                            else if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
-                            {
-                                state->Gamepad.wButtons = state->Gamepad.wButtons & ~XINPUT_GAMEPAD_RIGHT_SHOULDER; /* Disable RGrip */
-                                state->Gamepad.wButtons |= XINPUT_GAMEPAD_DPAD_DOWN; /* Cycle context menu with grip buttons */
-                            }
+                        if (state->Gamepad.wButtons & XINPUT_GAMEPAD_A) {                           
+
+                            timer.start();
                         }
                         else
                         {
-                            ContextMode = false;
-
-                            if (state->Gamepad.bLeftTrigger >= 200) {
-                                state->Gamepad.wButtons = (state->Gamepad.wButtons | XINPUT_GAMEPAD_A);
-                            }
-                            else {
-                                state->Gamepad.wButtons = (state->Gamepad.wButtons & ~XINPUT_GAMEPAD_A);
-                            }
+                            VaporizeInventory = false;
+                            timer.stop();
+                            timer.reset();
                         }
 
-                        if (state->Gamepad.bRightTrigger >= 200) {
-                            state->Gamepad.bLeftTrigger = 200;
+                        if (state->Gamepad.bLeftTrigger >= 200) {
+                            state->Gamepad.wButtons = (state->Gamepad.wButtons | XINPUT_GAMEPAD_A);
                         }
                         else {
-                            state->Gamepad.bLeftTrigger = 0;
-                        }                        
+                            state->Gamepad.wButtons = (state->Gamepad.wButtons & ~XINPUT_GAMEPAD_A);
+                        }
                     }
+
+                    if (state->Gamepad.bRightTrigger >= 200) {
+                        state->Gamepad.bLeftTrigger = 200;
+                    }
+                    else {
+                        state->Gamepad.bLeftTrigger = 0;
+                    }                    
                 }
 
                 /* ========== KEYPAD CIRCUIT PUZZLE FIX ========== */
@@ -930,19 +952,9 @@ public:
 
             /* ========== MANUAL HEIGHT CALIBRATION ========== */
 
-            // Vibration flag, clear it on release.
-            if (ButtonsDownL == true) {
-                if (state->Gamepad.bLeftTrigger <= 100 && !(state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB))
-                    ButtonsDownL = false;
-            }
-            // Send vibration
-            else {
-                if (state->Gamepad.bLeftTrigger >= 200 && (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB)) {
-                    ButtonsDownL = true;
-
-                    reset_height();
-                }
-            }
+           if (state->Gamepad.bLeftTrigger >= 200 && (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB)) {
+               reset_height();
+           }           
         }
     }
 };

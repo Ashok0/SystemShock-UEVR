@@ -59,7 +59,6 @@ public:
 
 				if (bIsMFDVisible == true)
 				{
-					Object->set_IsTryingToVaporizeInventory(false); /* Prevent RT from vaporizing items */
 					return Object; /* Return most recent object */
 				}
 			}
