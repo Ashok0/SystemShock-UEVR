@@ -1,7 +1,7 @@
 # System Shock Remake UEVR Plugin
 This System Shock mod brings VR support complete with 6DOF motion controls to one of the greatest immersive sims of all time!  This VR mod consists of:
 
-1) A UEVR profile and C++ plugin (Bundled together)
+1) A UEVR profile and C++ plugin (Bundled together).  Required UEVR Nightly 940 or newer!
 2) An optional PAK mod
 
 The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds a wide variety of advanced VR features and fixes to the game.  The PAK mod updates the button prompts to match Oculus Touch controllers.
