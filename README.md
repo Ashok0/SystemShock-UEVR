@@ -27,6 +27,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * Snap Turn support. Enabled by default.
 * Smooth Turn support.  Press **L3+R3** to open up the UEVR overlay.  Select the "Input" tab and set the "Snap Turn Angle" to 359 (for Meta, Index, HTC, and Pimax controllers) or 2 (for Varjo controllers).  This enables smooth turning for seated play.
 * Physical crouching support.  You can crouch and crawl through tight collision areas by crouching in real life.  The profile also prevents the camera from "rubber banding" to the ground when crouching is active.  You can recalibrate your height and physical crouching threshold by pressing **LT+L3**.  Note that pressing **X** to crouch will no longer lower the camera to the ground if physical crouching is active.  If you wish to disable physical crouching and use **X** to crouch for seated play, delete "17105528413843615245_props.json" from your UEVR global directory.
+* Disables leaning as this causes movement to freeze in VR.
 * Cyberspace fixes.  Gameplay in cyberspace is similar to Descent. You can steer with the right thumb stick and pressing **RT** will fire at the center of the screen.
 * First person animation fixes.  The apartment intro arrest sequence, cryobeds, surgical beds, cyberspace terminals, and death sequences now play properly in VR.
 * Cutscenes fixes.
@@ -40,7 +41,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 
 ## Installation
 1) Install a clean copy of System Shock Remake and delete any existing System Shock profiles from your UEVR global folder if installed.
-2) Install the nightly build of UEVR (at least UEVR Nightly 938 required) from [**HERE**](https://github.com/praydog/UEVR-nightly/releases).
+2) Install the nightly build of UEVR (at least UEVR Nightly 940 or newer required) from [**HERE**](https://github.com/praydog/UEVR-nightly/releases).
 3) Download the latest release of the System Shock UEVR plugin from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases). Click "Import Config" in the UEVR UI and navigate to "SystemReShock-Win64-Shipping.zip" and click on it and accept the DLL warning.
 4) (Optional) Download the latest PAK mod from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases).  Copy the .pak file to \Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks
 5) (Optional) For Valve Index users only, the System button must be mapped to the left touchpad and the right touchpad must be configured as a right thumbrest in the SteamVR bindings.
@@ -52,30 +53,30 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * Move: LS
 * Jump: A
 * Crouch: X (Seated Mode Only)
-* Sprint: LS (Dn)  
+* Sprint: LGrip
 
 ### Interaction & Combat
-* Interact Mode (Cursor): LT
+* Interact Mode: LT (Hold LT for interactive cursor)
 * Interact: B
 * Exit Interact: X
 * Attack: RT
 * Reload: B
 * Mode Switch: Y
-* Main Menu: System Button (Hold < 1s)
-* MFD: SYSTEM (Hold > 1s)
-* Use Explosive: RB
-* Use Consumable: LB
-* Previous/Next Hotbar Item: Dpad (Right Thumbrest) + LS
+* Main Menu: System (Hold < 1s) OR Interact Mode + Y (Hold < 1s)
+* MFD: System (Hold > 1s) OR Interact Mode + Y (Hold > 1s)
+* Previous/Next Hotbar Item: Dpad (Right Thumbrest OR RGrip) + LS
 
 ### MFD
 * Context menu: Y
-* Select context menu option: Dpad (Right Thumbrest) + LT
+* Select menu options: Y
+* Scroll menu options: RS (Flick Up/Dn/Left/Right)
 * Select item: LT
 * Move item: RS
 * Sort: B
 * Analyze: RT
-* Previous Tab: Left Grip
-* Next Tab: Right Grip
+* Vaporize: A (Hold > 2s)
+* Previous Tab: LGrip
+* Next Tab: RGrip
 
 ### Cyberspace
 * Move: LS
@@ -110,6 +111,9 @@ You can change select settings safely.  Do not change any of the following, howe
 * VR_SnapTurn
 * VR_AimMethod
 * VR_DecoupledPitch
+* VR_CameraForwardOffset
+* VR_CameraRightOffset
+* VR_CameraUpOffset
 
 *IN-GAME SETTINGS*
 * Toggle Crouch
