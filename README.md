@@ -47,6 +47,8 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 6) Launch System Shock and inject the game with UEVR!
 
 ## Controls
+* In-Game Controls should be left at default settings as key bindings are managed by the VR plugin.
+    
 ### General
 * Move: LS
 * Jump: A
@@ -116,7 +118,7 @@ You can change select settings safely.  Do not change any of the following, howe
 
 *IN-GAME SETTINGS*
 * Toggle Crouch
-* Crouch = X
+* In-Game Controls should be left at default settings as key bindings are managed by the VR plugin.
 
 **I pressed *X* and crouching is not working!**
 With default settings, you should always crouch by crouching in real life.  If you press the crouch button (**X**), the player will technically crouch but this plugin prevents the crouch button from modifying the camera height as this would interfere with physical crouching.  If you wish to use the **X** button to crouch, you must delete "17105528413843615245_props.json" from your UEVR global directory.
