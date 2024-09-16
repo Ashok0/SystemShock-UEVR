@@ -21,7 +21,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * In-game settings automatically configured for VR.
 * Improved object interaction.  Hold **LT** to enable "interact" mode.  You do not need to enter "interact" mode to interact with objects, but this mode will display a cursor so you can more easily interact with things like weapons, ammo, switches, levers, etc.  Weapons are disabled in this mode as enabling motion controls prevents the cursor from working properly in VR. This mode also temporarily disables Roomscale which allows you to lean closely towards objects and walls without any pushback.  Releasing **LT**, crouching, or picking up auto equip items will exit "interact" mode and re-center you in your playspace.  "Interact" mode is also automatically activated and exited when you use or stop using a keypad, circuit puzzle, or vending machine.
 * Motion controller gesture support.  You can melee attack with the lead pipe, wrench, or laser rapier by swinging your right hand forward in real life.  Holding **RT** while performing a gesture will perform a heavy melee attack.  You can alternatively melee with only **RT**.
-* Improved VR controls when using the Inventory menu.  The mouse cursor can be controlled with **RS**.  Press **LT** to select inventory items.  Inventory sub-menu options (shown with **Y**) can be selected with **Dpad (Right Thumbrest) + LT**.  Press **RT** to display additional information on selected inventory items.  
+* Improved VR controls when using menus.  The main menu can be accessed by holding **System** for less than 1 second.  The main menu can alternatively be accessed by entering Interact Mode (hold **LT**) and holding **Y** for less than 1 second.  The Multi-Function Display  (NFD) can be accessed by holding **System** for greater than 1 second.  The MFD can alternatively be accessed by entering Interact Mode (hold **LT**) and holding **Y** for greater than 1 second. The mouse cursor can be controlled with **RS**.  Inventory items can be selected with **LT** and moved with **RS**.  Inventory sub-menu options (shown with **Y**) can also be selected with **Y**.  Inventory sub-menu options can be scrolled by flicking **RS** (Dpad) up/down/left/right.  Press **RT** to display additional information on selected inventory items.  Press **B** to sort items.  Hold **A** for 2 seconds to vaporize junk (note that food may also be vaporized). **LGrip** abd **RGrip** can be used to cycle the MFD tabs.   
 * Roomscale support with Automatic Height Adjustment.
 * Snap Turn support. Enabled by default.
 * Smooth Turn support.  Press **L3+R3** to open up the UEVR overlay.  Select the "Input" tab and set the "Snap Turn Angle" to 359 (for Meta, Index, HTC, and Pimax controllers) or 2 (for Varjo controllers).  This enables smooth turning for seated play.
@@ -43,9 +43,8 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 2) Install the nightly build of UEVR (at least UEVR Nightly 940 or newer required) from [**HERE**](https://github.com/praydog/UEVR-nightly/releases).
 3) Download the latest release of the System Shock UEVR plugin from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases). Click "Import Config" in the UEVR UI and navigate to "SystemReShock-Win64-Shipping.zip" and click on it and accept the DLL warning.
 4) (Optional) Download the latest PAK mod from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases).  Copy the .pak file to \Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks
-5) (Optional) For Valve Index users only, the System button must be mapped to the left touchpad and the right touchpad must be configured as a right thumbrest in the SteamVR bindings.
-6) (Optional) For seated play, delete "17105528413843615245_props.json" from your UEVR global directory to disable physical crouching.  This will allow you to manually crouch by pressing **X**.
-7) Launch System Shock and inject the game with UEVR!
+5) (Optional) For seated play, delete "17105528413843615245_props.json" from your UEVR global directory to disable physical crouching.  This will allow you to manually crouch by pressing **X**.
+6) Launch System Shock and inject the game with UEVR!
 
 ## Controls
 ### General
@@ -55,7 +54,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * Sprint: LGrip
 
 ### Interaction & Combat
-* Interact Mode: LT (Hold LT for interactive cursor)
+* Interact Mode: LT (Hold LT for interaction cursor)
 * Interact: B
 * Exit Interact: X
 * Attack: RT
