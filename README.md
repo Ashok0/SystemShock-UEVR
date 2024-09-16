@@ -73,6 +73,7 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * Sort: B
 * Analyze: RT
 * Vaporize: A (Hold > 2s)
+* Exit: X
 * Previous Tab: LGrip
 * Next Tab: RGrip
 
