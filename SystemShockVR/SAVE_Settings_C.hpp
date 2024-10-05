@@ -40,6 +40,8 @@ public:
 					Object->set_FocusAimToggle(false);
 					Object->SetFOV(120.0, true);
 					Object->ApplyFOV(120.0, true);
+					Object->SetReloadCanUseBatteries(false);
+					Object->ApplyReloadCanUseBatteries(false);
 				}
 				else
 				{
@@ -62,7 +64,7 @@ public:
 
 	void SetFOV(float NewValue, bool IsRealspace)
 	{
-		static const auto func = CON_Hacker_C::static_class()->find_function(L"SetFOV");
+		static const auto func = SAVE_Settings_C::static_class()->find_function(L"SetFOV");
 		if (!func) {
 			// API::get()->log_info("SetFOV not found");
 			return;
@@ -83,7 +85,7 @@ public:
 
 	void ApplyFOV(float NewValue, bool IsRealspace)
 	{
-		static const auto func = CON_Hacker_C::static_class()->find_function(L"ApplyFOV");
+		static const auto func = SAVE_Settings_C::static_class()->find_function(L"ApplyFOV");
 		if (!func) {
 			// API::get()->log_info("ApplyFOV not found");
 			return;
@@ -98,6 +100,46 @@ public:
 			float NewValue;
 			bool IsRealspace;
 		} params{ .NewValue = NewValue, .IsRealspace = IsRealspace };
+
+		process_event(func, &params);
+	}
+
+	void SetReloadCanUseBatteries(bool NewValue)
+	{
+		static const auto func = SAVE_Settings_C::static_class()->find_function(L"SetReloadCanUseBatteries");
+		if (!func) {
+			// API::get()->log_info("SetReloadCanUseBatteries not found");
+			return;
+		}
+		else
+		{
+			// API::get()->log_info("SetReloadCanUseBatteries found");
+		}
+
+		struct
+		{
+			bool NewValue;
+		} params{ .NewValue = NewValue };
+
+		process_event(func, &params);
+	}
+
+	void ApplyReloadCanUseBatteries(bool NewValue)
+	{
+		static const auto func = SAVE_Settings_C::static_class()->find_function(L"ApplyReloadCanUseBatteries");
+		if (!func) {
+			// API::get()->log_info("ApplyReloadCanUseBatteries not found");
+			return;
+		}
+		else
+		{
+			// API::get()->log_info("ApplyReloadCanUseBatteries found");
+		}
+
+		struct
+		{
+			bool NewValue;
+		} params{ .NewValue = NewValue };
 
 		process_event(func, &params);
 	}

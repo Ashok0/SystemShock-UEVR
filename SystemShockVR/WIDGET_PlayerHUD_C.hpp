@@ -5,6 +5,7 @@
 using namespace uevr;
 
 extern bool IsBracket;
+extern bool ContextMode;
 
 class WIDGET_PlayerHUD_C : public API::UObject
 {
@@ -57,6 +58,14 @@ public:
 
 				bool bIsMFDVisible = Object->get_is_mfd_visible();
 
+				if (ContextMode == true) {
+					Object->SetMouseCursorVisibility(false);
+				}
+				else
+				{
+					Object->SetMouseCursorVisibility(true);
+				}
+
 				if (bIsMFDVisible == true)
 				{
 					return Object; /* Return most recent object */
@@ -77,9 +86,29 @@ public:
 		set_bool_property(L"ShouldShowBrackets", val);
 	}
 
+	void SetMouseCursorVisibility(bool Visible)
+	{
+		static const auto func = static_class()->find_function(L"SetMouseCursorVisibility");
+		if (!func) {
+			// API::get()->log_info("SetMouseCursorVisibility not found");
+			return;
+		}
+		else
+		{
+			// API::get()->log_info("SetMouseCursorVisibility found");
+		}
+
+		struct
+		{
+			bool Visible;
+		} params{ .Visible = Visible };
+
+		process_event(func, &params);
+	}
+
 	void ShowTargetBrackets(bool Visible)
 	{
-		static const auto func = CH_Hacker_AnimBP_C::static_class()->find_function(L"ShowTargetBrackets");
+		static const auto func = WIDGET_PlayerHUD_C::static_class()->find_function(L"ShowTargetBrackets");
 		if (!func) {
 			// API::get()->log_info("ShowTargetBrackets not found");
 			return;

@@ -271,6 +271,18 @@ public:
 
             if (current_pawn_state == PAWN_HACKERSIMPLE) /* Intro fix */
             {
+                const auto PHSC = PAWN_Hacker_Simple_C::get_instance();
+
+                if (PHSC)
+                {
+                    IsLean = PHSC->get_IsTryingToLean();
+
+                    if (IsLean)
+                    {
+                        PHSC->set_IsTryingToLean(false); /* Disable lean input as this can freeze movement in VR */
+                    }
+                }
+
                 const auto ILC = INTERACT_Laptop_C::get_instance();
                 if (ILC)
                 {
@@ -570,7 +582,7 @@ public:
                     }
                 }
 
-                // API::get()->log_error("IsInteractMode = %d, IsEquipped = %d, IKSanityCheck = %d", IsInteractMode, IsEquipped, IKSanityCheck);
+                // API::get()->log_error("IsInteractMode = %d, IsEquipped = %d, InteractExit = %d, IsCrouchingCurrent = %d, IsMFDCurrent = %d, IsMainMenuCurrent = %d, IsMovementCurrent = %d, IsAliveCurrent = %d, IsCrosshairCurrent = %d, IKSanityCheck = %d", IsInteractMode, IsEquipped, InteractExit, IsCrouchingCurrent, IsMFDCurrent, IsMainMenuCurrent, IsMovementCurrent, IsAliveCurrent, IsCrosshairCurrent, IKSanityCheck);
 
                 if (IKSanityCheck == true)
                 {
