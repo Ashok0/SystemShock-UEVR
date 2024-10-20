@@ -39,12 +39,14 @@ The UEVR profile adds 6DOF motion controls to System Shock.  The C++ plugin adds
 * SystemShock-VRFixes_p.pak: Oculus Touch button prompts.
 
 ## Installation
-1) Install a clean copy of System Shock Remake and delete any existing System Shock profiles from your UEVR global folder if installed.
-2) Install the nightly build of UEVR (at least UEVR Nightly 940 or newer required) from [**HERE**](https://github.com/praydog/UEVR-nightly/releases).
-3) Download the latest release of the System Shock UEVR plugin from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases). Click "Import Config" in the UEVR UI and navigate to "SystemReShock-Win64-Shipping.zip" and click on it and accept the DLL warning.
-4) (Optional) Download the latest PAK mod from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases).  Copy the .pak file to \Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks
-5) (Optional) For seated play, delete "17105528413843615245_props.json" from your UEVR global directory to disable physical crouching.  This will allow you to manually crouch by pressing **X**.
-6) Launch System Shock and inject the game with UEVR!
+* Install a clean copy of System Shock Remake and delete any existing System Shock profiles from your UEVR global folder if installed.
+* Disconnect any gamepads from your PC or turning will not work properly in VR.
+
+1) Install the nightly build of UEVR (at least UEVR Nightly 940 or newer required) from [**HERE**](https://github.com/praydog/UEVR-nightly/releases).
+2) Download the latest release of the System Shock UEVR plugin from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases). Click "Import Config" in the UEVR UI and navigate to "SystemReShock-Win64-Shipping.zip" (make sure the filename does not have any numbers in it) and click on it and accept the DLL warning.
+3) (Optional) Download the latest PAK mod from [**HERE**](https://github.com/Ashok0/SystemShock-UEVR/releases).  Copy the .pak file to \Steam\steamapps\common\System Shock Remake\SystemShock\Content\Paks
+4) (Optional) For seated play, delete "17105528413843615245_props.json" from your UEVR global directory to disable physical crouching.  This will allow you to manually crouch by pressing **X**.
+5) Launch System Shock and inject the game with UEVR!
 
 ## Controls
 * In-Game Controls should be left at default settings as key bindings are managed by the VR plugin.
@@ -121,7 +123,7 @@ You can change select settings safely.  Do not change any of the following, howe
 * In-Game Controls should be left at default settings as key bindings are managed by the VR plugin.
 
 **I pressed *X* and crouching is not working!**
-With default settings, you should always crouch by crouching in real life.  If you press the crouch button (**X**), the player will technically crouch but this plugin prevents the crouch button from modifying the camera height as this would interfere with physical crouching.  If you wish to use the **X** button to crouch, you must delete "17105528413843615245_props.json" from your UEVR global directory.
+With default settings, you must crouch by crouching in real life.  The physical crouching feature prevents the crouch button (**X**) from adjusting the camera height.  If you wish to use the **X** button to crouch, you must delete "17105528413843615245_props.json" from your UEVR global directory.
 
 **Pressing *LT* no longer activates Interact mode!**
 If **LT** is not working for you, you may be in a crouched state.  Press **X** to toggle crouching off.  Interact mode is disabled when you are crouched as the cursor only works properly in VR at a standing height.  
