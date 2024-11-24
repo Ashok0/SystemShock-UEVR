@@ -27,6 +27,8 @@
 #include "WIDGET_PlayerHUD_C.hpp"
 #include "pch.h"
 
+void smooth_rotation(XINPUT_STATE* state);
+void smooth_rotation_cyberspace(XINPUT_STATE* state);
 void send_key(WORD key, bool key_up);
 void anim_cine_intro_height_recalibration();
 void reset_height();
@@ -298,6 +300,20 @@ public:
             else
             {
                 IsLaptop = false;
+            }
+
+            if (current_pawn_state == PAWN_AVATAR)
+            {
+                smooth_rotation_cyberspace(state);
+
+                if (state->Gamepad.sThumbRY <= -200)
+                {
+                    state->Gamepad.wButtons |= XINPUT_GAMEPAD_B;
+                }
+                else if (state->Gamepad.sThumbRY >= 200)
+                {
+                    state->Gamepad.wButtons |= XINPUT_GAMEPAD_A;
+                }
             }
 
             if (current_pawn_state == PAWN_HACKERIMPLANT)
@@ -880,75 +896,7 @@ public:
                         InitSmoothTurn = true;
                     }
 
-                    if (state->Gamepad.sThumbRX >= INPUT_DEADZONE_HI) /* Fast speed smooth rotation */
-                    {
-                        ref.yaw += 3;
-                        const auto CONT = Controller::get_instance();
-                        if (CONT) {
-                            CONT->SetControlRotation(&ref);
-                        }
-
-                        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
-                    }
-                    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_MED) && (state->Gamepad.sThumbRX < INPUT_DEADZONE_HI)) /* Medium speed smooth rotation */
-                    {
-                        ref.yaw += 2;
-                        const auto CONT = Controller::get_instance();
-                        if (CONT) {
-                            CONT->SetControlRotation(&ref);
-                        }
-
-                        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
-                    }
-                    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_LO) && (state->Gamepad.sThumbRX <= INPUT_DEADZONE_MED)) /* Slow speed smooth rotation */
-                    {
-                        ref.yaw += 1;
-                        const auto CONT = Controller::get_instance();
-                        if (CONT) {
-                            CONT->SetControlRotation(&ref);
-                        }
-
-                        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
-                    }
-                    else if (state->Gamepad.sThumbRX <= -INPUT_DEADZONE_HI) /* Fast speed smooth rotation */
-                    {
-                        ref.yaw -= 3; // = controller_rot_y;
-                        const auto CONT = Controller::get_instance();
-                        if (CONT) {
-                            CONT->SetControlRotation(&ref);
-                        }
-
-                        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
-                    }
-                    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_MED) && (state->Gamepad.sThumbRX > -INPUT_DEADZONE_HI)) /* Medium speed smooth rotation */
-                    {
-                        ref.yaw -= 2; // = controller_rot_y;
-                        const auto CONT = Controller::get_instance();
-                        if (CONT) {
-                            CONT->SetControlRotation(&ref);
-                        }
-
-                        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
-                    }
-                    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_LO) && (state->Gamepad.sThumbRX >= -INPUT_DEADZONE_MED)) /* Medium speed smooth rotation */
-                    {
-                        ref.yaw -= 1; // = controller_rot_y;
-                        const auto CONT = Controller::get_instance();
-                        if (CONT) {
-                            CONT->SetControlRotation(&ref);
-                        }
-
-                        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
-                    }
-                    else
-                    {
-                        const auto CONT = Controller::get_instance();
-                        if (CONT) {
-                            ref = CONT->GetControlRotation(); /* Get camera settings before attempting smooth rotation */
-                        }
-
-                        // API::get()->log_info("Old SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
-                    }
+                    smooth_rotation(state);
                 }
                 else if (snap_angle_int != 359)
                 {
@@ -970,6 +918,152 @@ public:
         }
     }
 };
+
+void smooth_rotation(XINPUT_STATE* state)
+{
+    if (state->Gamepad.sThumbRX >= INPUT_DEADZONE_HI) /* Fast speed smooth rotation */
+    {
+        ref.yaw += 3;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_MED) && (state->Gamepad.sThumbRX < INPUT_DEADZONE_HI)) /* Medium speed smooth rotation */
+    {
+        ref.yaw += 2;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_LO) && (state->Gamepad.sThumbRX <= INPUT_DEADZONE_MED)) /* Slow speed smooth rotation */
+    {
+        ref.yaw += 1;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if (state->Gamepad.sThumbRX <= -INPUT_DEADZONE_HI) /* Fast speed smooth rotation */
+    {
+        ref.yaw -= 3; // = controller_rot_y;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_MED) && (state->Gamepad.sThumbRX > -INPUT_DEADZONE_HI)) /* Medium speed smooth rotation */
+    {
+        ref.yaw -= 2; // = controller_rot_y;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_LO) && (state->Gamepad.sThumbRX >= -INPUT_DEADZONE_MED)) /* Medium speed smooth rotation */
+    {
+        ref.yaw -= 1; // = controller_rot_y;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else
+    {
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            ref = CONT->GetControlRotation(); /* Get camera settings before attempting smooth rotation */
+        }
+
+        // API::get()->log_info("Old SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+}
+
+void smooth_rotation_cyberspace(XINPUT_STATE* state)
+{
+    if (state->Gamepad.sThumbRX >= INPUT_DEADZONE_HI) /* Fast speed smooth rotation */
+    {
+        ref.yaw += 2;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_MED) && (state->Gamepad.sThumbRX < INPUT_DEADZONE_HI)) /* Medium speed smooth rotation */
+    {
+        ref.yaw += 1.5;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if ((state->Gamepad.sThumbRX > INPUT_DEADZONE_LO) && (state->Gamepad.sThumbRX <= INPUT_DEADZONE_MED)) /* Slow speed smooth rotation */
+    {
+        ref.yaw += .5;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if (state->Gamepad.sThumbRX <= -INPUT_DEADZONE_HI) /* Fast speed smooth rotation */
+    {
+        ref.yaw -= 2; // = controller_rot_y;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_MED) && (state->Gamepad.sThumbRX > -INPUT_DEADZONE_HI)) /* Medium speed smooth rotation */
+    {
+        ref.yaw -= 1.5; // = controller_rot_y;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else if ((state->Gamepad.sThumbRX < -INPUT_DEADZONE_LO) && (state->Gamepad.sThumbRX >= -INPUT_DEADZONE_MED)) /* Medium speed smooth rotation */
+    {
+        ref.yaw -= .5; // = controller_rot_y;
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            CONT->SetControlRotation(&ref);
+        }
+
+        // API::get()->log_info("New SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+    else
+    {
+        const auto CONT = Controller::get_instance();
+        if (CONT) {
+            ref = CONT->GetControlRotation(); /* Get camera settings before attempting smooth rotation */
+        }
+
+        // API::get()->log_info("Old SetControlRotation x = %f y = %f z = %f", ref.pitch, ref.yaw, ref.roll);
+    }
+}
 
 void send_key(WORD key, bool key_dn)
 {
@@ -1082,7 +1176,7 @@ void pawn_Process(uint8_t current_pawn_state)
                 break;
             case PAWN_AVATAR:
                 // API::get()->log_info("New pawn found: Avatar %d %d", last_pawn_state, current_pawn_state); /* Cyberspace */
-                vr->set_aim_method(0);
+                vr->set_aim_method(2);
                 vr->set_snap_turn_enabled(false);
                 vr->set_decoupled_pitch_enabled(false);
                 vr->set_mod_value("VR_RoomscaleMovement", "true");
