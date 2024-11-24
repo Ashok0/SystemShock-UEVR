@@ -116,6 +116,9 @@ char snap_angle;
 bool IsBracket = false;
 bool ButtonsDownY = false;
 
+bool disable_equip = false;
+bool validate_equip = false;
+
 uint8_t last_pawn_state = PAWN_UNKNOWN;
 uint8_t current_pawn_state = PAWN_UNKNOWN;
 
@@ -737,6 +740,14 @@ public:
                     else
                     {
                         ContextMode = false;
+
+                        if (state->Gamepad.bLeftTrigger > 0 && validate_equip == false) {
+                            disable_equip = true; /* Set flag to prevent auto equipping items while opening inventory when LT is held down */
+                        }
+                        else if (state->Gamepad.bLeftTrigger == 0)
+                        {
+                            disable_equip = false;
+                        }
                         
                         if (timer.count<std::chrono::milliseconds>() >= 1000)
                         {
@@ -757,11 +768,13 @@ public:
                         }
 
                         if (state->Gamepad.bLeftTrigger >= 200) {
-                            state->Gamepad.wButtons = (state->Gamepad.wButtons | XINPUT_GAMEPAD_A);
+                            if(disable_equip == false) state->Gamepad.wButtons = (state->Gamepad.wButtons | XINPUT_GAMEPAD_A);
                         }
                         else {
                             state->Gamepad.wButtons = (state->Gamepad.wButtons & ~XINPUT_GAMEPAD_A);
                         }
+
+                        validate_equip = true;
                     }
 
                     if (state->Gamepad.bRightTrigger >= 200) {
@@ -770,6 +783,10 @@ public:
                     else {
                         state->Gamepad.bLeftTrigger = 0;
                     }                    
+                }
+                else
+                {
+                    validate_equip = false;
                 }
 
                 /* ========== KEYPAD CIRCUIT PUZZLE FIX ========== */
